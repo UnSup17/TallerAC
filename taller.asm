@@ -8,30 +8,32 @@ bufSize EQU 121
         index       EQU 0
 
 .data 
-        password        DB "talleraq", CHR_FIN
+        password        DB "tallerac", CHR_FIN
         msgpassword     DB "Ingrese su password: ", CHR_FIN
         
-        signo           DB "-", CHR_FIN
+        signoResta           DB "-", CHR_FIN
         coma            DB ",", CHR_FIN
-        fh              DB "1111", CHR_FIN
         msgpasinvalida  db VAL_LF, VAL_RET,"Password Invalida", VAL_LF, VAL_RET, CHR_FIN
         msgpasswordok   db VAL_LF, VAL_RET,"Password Correcta",VAL_LF, VAL_RET, CHR_FIN
         
         msgReadKey      db VAL_LF, VAL_RET,"Presione Cualquier tecla para continuar...",VAL_LF, VAL_RET, CHR_FIN
-        menu            DB VAL_LF, VAL_RET,"::::: MENU :::::" , VAL_LF, VAL_RET;
-        opc1            DB "1.- Suma-Diferencia", VAL_LF, VAL_RET;
-        opc2            DB "2.- Multiplicacion-Division", VAL_LF, VAL_RET;
-        opc3            DB "3.- Operacion Hexadecimal", VAL_LF, VAL_RET;
-        opc4            DB "4.- Fibonacci", VAL_LF, VAL_RET;
-        opc5            DB "5.- Salir", VAL_LF, VAL_RET, CHR_FIN;
+        menu            DB VAL_LF, VAL_RET,"|------------------------------------|", VAL_LF, VAL_RET;
+        opc0            DB "|--------------- MENU ---------------|", VAL_LF, VAL_RET;
+        opc1            DB "|  1.- Suma y resta                  |", VAL_LF, VAL_RET;
+        opc2            DB "|  2.- Multiplicacion y Division     |", VAL_LF, VAL_RET;
+        opc3            DB "|  3.- Operaciones con Hexadecimal   |", VAL_LF, VAL_RET;
+        opc4            DB "|  4.- Serie Fibonacci               |", VAL_LF, VAL_RET;
+        opc5            DB "|------------------------------------|", VAL_LF, VAL_RET;
+        opc6            DB "|  0.- Salir                         |", VAL_LF, VAL_RET;
+        opc7            DB "|------------------------------------|", VAL_LF, VAL_RET, CHR_FIN;
         
-        msg             DB "Digite una Opcion entre 1 y 5: ", VAL_LF, VAL_RET, CHR_FIN;
+        msg             DB "Digite la opcion a realizar: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum1         DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum2         DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum3         DB "Ingrese primer numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum4         DB "Ingrese segundo numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNumH         DB "Ingrese un numero Hexadecimal de 2 digitos: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgOpNoValida   DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
+        msgOpcNoValida   DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
         msgresultado1   DB VAL_LF, VAL_RET, "Resultado Suma: ",CHR_FIN
         msgresultado2   DB VAL_LF, VAL_RET, "Resultado Resta: ",CHR_FIN
         mensajeM        DB VAL_LF, VAL_RET, "Resultado Multiplicacion: ",CHR_FIN
@@ -367,7 +369,7 @@ auxhtob proc
     call itoa
     mov dx, offset resultado
     call impStr
-    mov dx, offset signo
+    mov dx, offset signoResta
     call impStr
 ret
 endp
@@ -493,7 +495,7 @@ restan:
         mov bx, offset resultado
         call itoa
         
-        mov dx, offset signo
+        mov dx, offset signoResta
         call impStr
         
         mov dx, offset resultado
@@ -692,6 +694,8 @@ valPasword PROC
     call valPasword 
     RET
 ENDP
+
+;main
 INICIO PROC
         call limpiar
         mov ax, @data  ; Se apunta al segmento de datos
@@ -705,7 +709,7 @@ INICIO PROC
         jmp showMenu
        
 showMenu:   
-        
+
         mov dx, offset menu     
         call impStr
 
@@ -728,10 +732,10 @@ opciones:
         cmp al, "4"
         je opcion4
         
-        cmp al, "5"
+        cmp al, "0"
         je salir
         
-        mov dx, offset msgOpNoValida
+        mov dx, offset msgOpcNoValida
         call impStr
         call readKey
         jmp showMenu ; se vuelve a pedir el numero en caso que la opcion digitada no sea valida 
