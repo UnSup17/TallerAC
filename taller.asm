@@ -27,6 +27,8 @@ bufSize EQU 121
         opc6            DB "|  0.- Salir                         |", VAL_LF, VAL_RET;
         opc7            DB "|------------------------------------|", VAL_LF, VAL_RET, CHR_FIN;
         
+        msgNoValido     DB "Datos ingresados fuera de rango", VAL_LF, VAL_RET, CHR_FIN;
+
         msg             DB "Digite la opcion a realizar: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum1         DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum2         DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
@@ -471,10 +473,24 @@ ENDP
 
 sumarrestar PROC
         call ingNum
-        mov dx, offset msgresultado1
-        call impStr
+        
         mov ax, op1
         add ax, op2
+        cmp ax, 65000
+        jl mostrarPunto1
+        jg fueraRango
+
+fueraRango:
+        mov dx, offset msgNoValido
+        call impStr
+        call itoa
+        call readKey
+        jmp showMenu
+        
+mostrarPunto1:
+
+        mov dx, offset msgresultado1
+        call impStr
         mov bx, offset resultado
         call itoa
         
@@ -485,7 +501,7 @@ sumarrestar PROC
         cmp ax, op2
         jae resta
         jmp restan
-        
+
 restan:        
         mov dx, offset msgresultado2
         call impStr
