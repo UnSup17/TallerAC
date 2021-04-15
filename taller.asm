@@ -8,13 +8,13 @@ bufSize EQU 121
         index       EQU 0
 
 .data 
-        password            DB "talleraq", CHR_FIN
+        password        DB "talleraq", CHR_FIN
         msgpassword     DB "Ingrese su password: ", CHR_FIN
         
         signo           DB "-", CHR_FIN
         coma            DB ",", CHR_FIN
         fh              DB "1111", CHR_FIN
-        msgpasinvalida  db VAL_LF, VAL_RET,"Password Invaida", VAL_LF, VAL_RET, CHR_FIN
+        msgpasinvalida  db VAL_LF, VAL_RET,"Password Invalida", VAL_LF, VAL_RET, CHR_FIN
         msgpasswordok   db VAL_LF, VAL_RET,"Password Correcta",VAL_LF, VAL_RET, CHR_FIN
         
         msgReadKey      db VAL_LF, VAL_RET,"Presione Cualquier tecla para continuar...",VAL_LF, VAL_RET, CHR_FIN
@@ -28,6 +28,8 @@ bufSize EQU 121
         msg             DB "Digite una Opcion entre 1 y 5: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum1         DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum2         DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
+        msgNum3         DB "Ingrese primer numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
+        msgNum4         DB "Ingrese segundo numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNumH         DB "Ingrese un numero Hexadecimal de 2 digitos: ", VAL_LF, VAL_RET, CHR_FIN;
         msgOpNoValida   DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
         msgresultado1   DB VAL_LF, VAL_RET, "Resultado Suma: ",CHR_FIN
@@ -102,6 +104,35 @@ ingNum PROC
     mov op1c,bx
     
     mov dx, offset msgNum2
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset num2
+    int 21h
+    
+    mov si, offset num2
+    call atoi
+    mov op2, bx
+    mov op2c, bx
+    
+    RET
+ENDP
+ingNum2 PROC
+    mov dx, offset msgNum3
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset num1
+    int 21h
+    
+    mov si, offset num1
+    call atoi
+    mov op1, bx
+    mov op1c,bx
+    
+    mov dx, offset msgNum4
     call impStr
     mov ah,3fh
     mov bx,00
@@ -341,18 +372,18 @@ auxhtob proc
 ret
 endp
 limpiar PROC
-         mov ah,06h
-         mov bH,1fh
-           mov cx,0000h
-           mov dx,184fh
-           int 10h
+        mov ah,06h
+        mov bH,01110000B
+        mov cx,0000h
+        mov dx,184fh
+        int 10h
            
-           MOV AH,02H   ;Para posicionar el cursor
-           MOV BH,00H   ;Coloco en la pagina 0
-           MOV DX,0000H ;Establesco las coordenadas, x=dh=renglon y=dl=columna
-           INT 10H      ;ejecuto la interrupci?n 
-           ret
-           ENDP
+        MOV AH,02H   ;Para posicionar el cursor
+        MOV BH,00H   ;Coloco en la pagina 0
+        MOV DX,0000H ;Establesco las coordenadas, x=dh=renglon y=dl=columna
+        INT 10H      ;ejecuto la interrupci?n 
+        ret
+        ENDP
 comp PROC
     cmp ax, 9
     ja mayor
@@ -468,7 +499,7 @@ restan:
         mov dx, offset resultado
         call impStr
         call readKey
-        jmp iniMenu
+        jmp showMenu
 resta:
         mov dx, offset msgresultado2
         call impStr
@@ -480,11 +511,11 @@ resta:
         mov dx, offset resultado
         call impStr
         call readKey
-        jmp iniMenu
+        jmp showMenu
 RET
 ENDP
 divMulti Proc
-        call ingNum
+        call ingNum2
         ;Division
         mov ax,op2
         cmp ax,0
@@ -495,7 +526,7 @@ divMulti Proc
         mov dx,offset mensajeE
         call impStr
         call readKey
-        jmp iniMenu
+        jmp showMenu
 
         divi:
         mov ax,op1
@@ -519,7 +550,7 @@ divMulti Proc
         mov dx,offset resultadoM
         call impStr
         call readKey
-        jmp iniMenu
+        jmp showMenu
 RET
 ENDP
 leerH proc
@@ -671,9 +702,9 @@ INICIO PROC
         posswordOk: 
         mov dx, offset msgpasswordok
         call impStr
-        jmp iniMenu
+        jmp showMenu
        
-iniMenu:   
+showMenu:   
         
         mov dx, offset menu     
         call impStr
@@ -703,7 +734,7 @@ opciones:
         mov dx, offset msgOpNoValida
         call impStr
         call readKey
-        jmp iniMenu ; se vuelve a pedir el numero en caso que la opcion digitada no sea valida 
+        jmp showMenu ; se vuelve a pedir el numero en caso que la opcion digitada no sea valida 
 salir:        
         mov ah,4ch ;terminacion del programa
         int 21h
@@ -712,12 +743,12 @@ opcion1:
         
 opcion2:
         call divMulti
-        jmp iniMenu
+        jmp showMenu
 opcion3:
        call hexadecimal
-        jmp iniMenu
+        jmp showMenu
 opcion4:
         call fibonacci
-        jmp iniMenu
+        jmp showMenu
 ENDP
 END INICIO
