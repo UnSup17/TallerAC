@@ -45,7 +45,6 @@ bufSize EQU 121
         msgXOR       DB "Resultado XOR: ", CHR_FIN;
         binario         DB "00000000", VAL_LF, VAL_RET, CHR_FIN;
         letra DB "A", CHR_FIN;
-        ;resultado       DB 0;
         numero          Dw 0 
         num1 db 6 dup(' '),'$'
         num2 db 6 dup(' '),'$'
