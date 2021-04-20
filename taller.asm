@@ -54,7 +54,7 @@ bufSize EQU 121
         numero          Dw 0 
         num1 db 6 dup(' '),'$'
         num2 db 6 dup(' '),'$'
-        aux db  8 dup(' '),'$'
+        cargarPas db  8 dup(' '),'$'
         num db 2 dup(' '),'$'
         cont db 0
         op1 dw ?
@@ -85,7 +85,7 @@ ENDP
 ingresarpasword PROC 
     mov dx, offset msgpassword
     call impStr
-    mov di,offset aux
+    mov di,offset cargarPas
     mov cx,8h
 lecture:    
     ;leer un caracter
@@ -729,7 +729,7 @@ valPasword PROC
     jg salir
     
     call ingresarpasword ;pide contrase?a
-    lea si,aux  ;cargamos en si la contrase?a ingresada
+    lea si,cargarPas  ;cargamos en si la contrase?a ingresada
     lea di,password ;cargamos en di la contrase?a almacenada
     mov cx,8
     repe cmpsb  ;valida contrase?a
