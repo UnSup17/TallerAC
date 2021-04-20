@@ -8,70 +8,70 @@ bufSize EQU 121
         index       EQU 0
 
 .data 
-        password        DB "tallerac", CHR_FIN
-        msgpassword     DB "Ingrese su password: ", CHR_FIN
+        varPassword        DB "tallerac", CHR_FIN
+        varMensajePassword     DB "Ingrese su varPassword: ", CHR_FIN
         
         signoResta      DB "-", CHR_FIN
         coma            DB ",", CHR_FIN
         msgpasinvalida  db VAL_LF, VAL_RET,"Password Invalida", VAL_LF, VAL_RET, CHR_FIN
         msgpasswordok   db VAL_LF, VAL_RET,"Password Correcta",VAL_LF, VAL_RET, CHR_FIN
         
-        msgReadKey      db VAL_LF, VAL_RET,"Presione Cualquier tecla para continuar...",VAL_LF, VAL_RET, CHR_FIN
-        menu            DB VAL_LF, VAL_RET,"|------------------------------------|", VAL_LF, VAL_RET;
-        opc0            DB "|--------------- MENU ---------------|", VAL_LF, VAL_RET;
-        opc1            DB "|  1.- Suma y resta                  |", VAL_LF, VAL_RET;
-        opc2            DB "|  2.- Multiplicacion y Division     |", VAL_LF, VAL_RET;
-        opc3            DB "|  3.- Operaciones con Hexadecimal   |", VAL_LF, VAL_RET;
-        opc4            DB "|  4.- Serie Fibonacci               |", VAL_LF, VAL_RET;
-        opc5            DB "|------------------------------------|", VAL_LF, VAL_RET;
-        opc6            DB "|  0.- Salir                         |", VAL_LF, VAL_RET;
-        opc7            DB "|------------------------------------|", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeEsperaLectura      db VAL_LF, VAL_RET,"Presione Cualquier tecla para continuar...",VAL_LF, VAL_RET, CHR_FIN
+        varMenu               DB VAL_LF, VAL_RET,"|------------------------------------|", VAL_LF, VAL_RET;
+        varOpcion0            DB "|--------------- MENU ---------------|", VAL_LF, VAL_RET;
+        varOpcion1            DB "|  1.- Suma y resta                  |", VAL_LF, VAL_RET;
+        varOpcion2            DB "|  2.- Multiplicacion y Division     |", VAL_LF, VAL_RET;
+        varOpcion3            DB "|  3.- Operaciones con Hexadecimal   |", VAL_LF, VAL_RET;
+        varOpcion4            DB "|  4.- Serie Fibonacci               |", VAL_LF, VAL_RET;
+        varOpcion5            DB "|------------------------------------|", VAL_LF, VAL_RET;
+        varOpcion6            DB "|  0.- Salir                         |", VAL_LF, VAL_RET;
+        varOpcion7            DB "|------------------------------------|", VAL_LF, VAL_RET, CHR_FIN;
         
-        msgNoValido     DB VAL_LF, VAL_RET,"Datos ingresados fuera de rango", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeInvalido     DB VAL_LF, VAL_RET,"Datos ingresados fuera de rango", VAL_LF, VAL_RET, CHR_FIN;
 
-        msg             DB "Digite la opcion a realizar: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNum1         DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNum2         DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNum3         DB "Ingrese primer numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNum4         DB "Ingrese segundo numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNumH         DB "Ingrese un numero Hexadecimal de 2 digitos: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgOpcNoValida   DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
-        msgresultado1   DB VAL_LF, VAL_RET, "Resultado Suma: ",CHR_FIN
-        msgresultado2   DB VAL_LF, VAL_RET, "Resultado Resta: ",CHR_FIN
-        mensajeM        DB VAL_LF, VAL_RET, "Resultado Multiplicacion: ",CHR_FIN
-        mensajeD        DB VAL_LF, VAL_RET, "Resultado Division: ",CHR_FIN
-        mensajeE        DB VAL_LF, VAL_RET, "No se puede dividir entre 0",CHR_FIN
-        msgBinario      DB " ", CHR_FIN;
-        msgNum1H        DB VAL_LF, VAL_RET,"Primer Hexadecimal en Binario: ", CHR_FIN;
-        msgNum2H        DB "Segundo Hexadecimal en Binario:  ", CHR_FIN;
-        msgNum1HN        DB "Primer Hexadecimal Negado en Binario: ", CHR_FIN;
-        msgNum2HN       DB "Segundo Hexadecimal Negado en Binario: ", CHR_FIN;
-        msgAND       DB "Resultado AND: ", CHR_FIN;
-        msgOR       DB "Resultado OR: ", CHR_FIN;
-        msgXOR       DB "Resultado XOR: ", CHR_FIN;
-        binario         DB "00000000", VAL_LF, VAL_RET, CHR_FIN;
-        letra DB "A", CHR_FIN;
+        varLecturaOpcion             DB "Digite la opcion a realizar: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensaje1         DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensaje2         DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensaje3         DB "Ingrese primer numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensaje4         DB "Ingrese segundo numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeHexadecimal         DB "Ingrese un numero Hexadecimal de 2 digitos: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeOpcionInvalida   DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeResultadoSuma   DB VAL_LF, VAL_RET, "Resultado Suma: ",CHR_FIN
+        varMensajeResultadoResta   DB VAL_LF, VAL_RET, "Resultado Resta: ",CHR_FIN
+        varMensajeResultadoMultiplicacion        DB VAL_LF, VAL_RET, "Resultado Multiplicacion: ",CHR_FIN
+        varMensajeResultadoDivision        DB VAL_LF, VAL_RET, "Resultado Division: ",CHR_FIN
+        varMensajeErrorDivisionPor0        DB VAL_LF, VAL_RET, "No se puede dividir entre 0",CHR_FIN
+        varMensajeBinario      DB " ", CHR_FIN;
+        varMensajePrimerNumeroHexa        DB VAL_LF, VAL_RET,"Primer Hexadecimal en Binario: ", CHR_FIN;
+        varMensajeSegundoNumeroHexa        DB "Segundo Hexadecimal en Binario:  ", CHR_FIN;
+        varMensajePrimerNumeroHexaNegado        DB "Primer Hexadecimal Negado en Binario: ", CHR_FIN;
+        varMensajeSegundoNumeroHexaNegado       DB "Segundo Hexadecimal Negado en Binario: ", CHR_FIN;
+        varMensajeResultadoAND       DB "Resultado AND: ", CHR_FIN;
+        varMensajeResultadoOR       DB "Resultado OR: ", CHR_FIN;
+        varMensajeResultadoXOR       DB "Resultado XOR: ", CHR_FIN;
+        varBinario         DB "00000000", VAL_LF, VAL_RET, CHR_FIN;
+        varLetra DB "A", CHR_FIN;
         numero          Dw 0 
-        num1 db 6 dup(' '),'$'
-        num2 db 6 dup(' '),'$'
-        aux db  8 dup(' '),'$'
+        varNumero1 db 6 dup(' '),'$'
+        varNumero2 db 6 dup(' '),'$'
+        varAuxiliar db  8 dup(' '),'$'
         num db 2 dup(' '),'$'
-        cont db 0
-        op1 dw ?
-        op2 dw ?
-        op1c dw ?
-        op2c dw ?
-        temp dw ?
-        cociente dw ?
-        residuoo dw ?
-        auxres dw ?
-        resultado db 6 DUP(?)
-        resultadoNOT db 6 DUP(?)
-        resultadoAND db 6 DUP(?)
-        resultadoOR db 6 DUP(?)
-        resultadoM dB 1000 dup(' '),'$'
-        resultadoD dB 1000 dup(' '),'$'
-        residuo db ?
+        varCont db 0
+        varOpcion1 dw ?
+        varOpcion2 dw ?
+        varOpcion1C dw ?
+        varOpcion2C dw ?
+        varTemporal dw ?
+        varResultadoCociente dw ?
+        varResultadoResiduo dw ?
+        varAuxiliarRes dw ?
+        varResultado db 6 DUP(?)
+        varResultadoNot db 6 DUP(?)
+        varResultadoAND db 6 DUP(?)
+        varResultadoOR db 6 DUP(?)
+        varResultadoMultiplicicacion dB 1000 dup(' '),'$'
+        varResultadoDivision dB 1000 dup(' '),'$'
+        varResiduo db ?
         
         
         
@@ -83,9 +83,9 @@ impStr PROC
     RET
 ENDP
 ingresarpasword PROC 
-    mov dx, offset msgpassword
+    mov dx, offset varMensajePassword
     call impStr
-    mov di,offset aux
+    mov di,offset varAuxiliar
     mov cx,8h
 lecture:    
     ;leer un caracter
@@ -124,65 +124,65 @@ ENDP
     ;    - ignores Ctrl-Break and Ctrl-PrtSc
 
 ingNum PROC
-    mov dx, offset msgNum3
+    mov dx, offset varMensaje3
     call impStr
     mov ah,3fh
     mov bx,00
     mov cx,6
-    mov dx,offset num1
+    mov dx,offset varNumero1
     int 21h
     
-    mov si, offset num1
+    mov si, offset varNumero1
     call conv_charNum
-    mov op1, bx
-    mov op1c,bx
+    mov varOpcion1, bx
+    mov varOpcion1C,bx
     
-    mov dx, offset msgNum4
+    mov dx, offset varMensaje4
     call impStr
     mov ah,3fh
     mov bx,00
     mov cx,6
-    mov dx,offset num2
+    mov dx,offset varNumero2
     int 21h
     
-    mov si, offset num2
+    mov si, offset varNumero2
     call conv_charNum
-    mov op2, bx
-    mov op2c, bx
+    mov varOpcion2, bx
+    mov varOpcion2C, bx
     
     RET
 ENDP
-ingNum2 PROC
-    mov dx, offset msgNum1
+ingvarNumero2 PROC
+    mov dx, offset varMensaje1
     call impStr
     mov ah,3fh
     mov bx,00
     mov cx,6
-    mov dx,offset num1
+    mov dx,offset varNumero1
     int 21h
     
-    mov si, offset num1
+    mov si, offset varNumero1
     call conv_charNum
-    mov op1, bx
-    mov op1c,bx
+    mov varOpcion1, bx
+    mov varOpcion1C,bx
     
-    mov dx, offset msgNum2
+    mov dx, offset varMensaje2
     call impStr
     mov ah,3fh
     mov bx,00
     mov cx,6
-    mov dx,offset num2
+    mov dx,offset varNumero2
     int 21h
     
-    mov si, offset num2
+    mov si, offset varNumero2
     call conv_charNum
-    mov op2, bx
-    mov op2c, bx
+    mov varOpcion2, bx
+    mov varOpcion2C, bx
     
     RET
 ENDP
 impR proc
-mov dx, offset resultado
+mov dx, offset varResultado
    call impStr
 RET
 ENDP
@@ -312,94 +312,94 @@ convBin proc near
             
        cmp ax, 128
         jae resto128
-        mov binario + 0, 48                  ; 128   64  32  16  8  4  2  1
+        mov varBinario + 0, 48                  ; 128   64  32  16  8  4  2  1
         jmp cmp64                           ;  0     1   0   0   0   0 0  1 
         
         resto128:
-        mov binario +0 , 49 
+        mov varBinario +0 , 49 
         sub ax, 128
         
         cmp64:
         cmp ax, 64
         jae resto64
-        mov binario + 1, 48
+        mov varBinario + 1, 48
         jmp cmp32
         
         resto64:
-        mov binario + 1 , 49 
+        mov varBinario + 1 , 49 
         sub ax, 64
         
         cmp32:
         cmp ax, 32
         jae resto32
-        mov binario + 2, 48
+        mov varBinario + 2, 48
         jmp cmp16
         
         resto32:
-        mov binario + 2 , 49 
+        mov varBinario + 2 , 49 
         sub ax, 32
         
         cmp16:
         cmp ax, 16
         jae resto16
-        mov binario + 3, 48
+        mov varBinario + 3, 48
         jmp cmp8
         
         resto16:
-        mov binario + 3, 49 
+        mov varBinario + 3, 49 
         sub ax, 16
         
         cmp8:
         cmp ax, 8
         jae resto8
-        mov binario + 4, 48
+        mov varBinario + 4, 48
         jmp cmp4
         
         resto8:
-        mov binario + 4, 49 
+        mov varBinario + 4, 49 
         sub ax, 8
         
         cmp4:
         cmp ax, 4
         jae resto4
-        mov binario + 5, 48
+        mov varBinario + 5, 48
         jmp cmp2
         
         resto4:
-        mov binario + 5, 49 
+        mov varBinario + 5, 49 
         sub ax, 4
         
         cmp2:
         cmp ax, 2
         jae resto2
-        mov binario + 6, 48
+        mov varBinario + 6, 48
         jmp cmp1
         
         resto2:
-        mov binario + 6, 49 
+        mov varBinario + 6, 49 
         sub ax, 2
         
         cmp1:
         cmp ax, 1
         jae resto1
-        mov binario + 7, 48
+        mov varBinario + 7, 48
         jmp cmp0
         
         resto1:
-        mov binario + 7, 49 
+        mov varBinario + 7, 49 
         sub ax, 1
         
         cmp0:
-        mov dx,offset msgBinario
+        mov dx,offset varMensajeBinario
         call impStr
-        mov dx,offset binario
+        mov dx,offset varBinario
         call impStr
 ret
 convBin endp
 auxhtob proc
-    mov bx, offset resultado
+    mov bx, offset varResultado
     call conv_numChar
-    mov dx, offset resultado
+    mov dx, offset varResultado
     call impStr
     mov dx, offset signoResta
     call impStr
@@ -423,9 +423,9 @@ comp PROC
     ja mayor
     jbe menor
     menor:
-    mov bx, offset resultado
+    mov bx, offset varResultado
     call conv_numChar
-    mov dx, offset resultado
+    mov dx, offset varResultado
     call impStr
     ret
     mayor:
@@ -442,33 +442,33 @@ comp PROC
     cmp ax, 15
     je f
     a:
-    mov letra, 'A'
-    mov dx, offset letra
+    mov varLetra, 'A'
+    mov dx, offset varLetra
     call impStr
     ret
     b:
-    mov letra, 'B'
-    mov dx, offset letra
+    mov varLetra, 'B'
+    mov dx, offset varLetra
     call impStr
     ret
     c:
-    mov letra, 'C'
-    mov dx, offset letra
+    mov varLetra, 'C'
+    mov dx, offset varLetra
     call impStr
     ret
     d:
-    mov letra, 'D'
-    mov dx, offset letra
+    mov varLetra, 'D'
+    mov dx, offset varLetra
     call impStr
     ret
     e:
-    mov letra, 'E'
-    mov dx, offset letra
+    mov varLetra, 'E'
+    mov dx, offset varLetra
     call impStr
     ret
     f:
-    mov letra, 'F'
-    mov dx, offset letra
+    mov varLetra, 'F'
+    mov dx, offset varLetra
     call impStr
     ret
 ret
@@ -478,21 +478,21 @@ decHex PROC
    mov cx, 4
    ror ax,cl
    and ax,0fh
-   mov cociente,ax
+   mov varResultadoCociente,ax
    mov ax, 16
-   mul cociente
-   mov auxres, ax
+   mul varResultadoCociente
+   mov varAuxiliarRes, ax
    mov ax, bx
-   sub ax, auxres
-   mov residuoo, ax
-   mov ax, cociente
+   sub ax, varAuxiliarRes
+   mov varResultadoResiduo, ax
+   mov ax, varResultadoCociente
    call comp
-   mov ax, residuoo
+   mov ax, varResultadoResiduo
    call comp
 RET
 ENDP 
 readKey PROC
-        mov dx, offset msgReadKey
+        mov dx, offset varMensajeEsperaLectura
         call impStr
         mov ah, 00  ;leer caracer del teclado
         int 16h
@@ -504,178 +504,178 @@ ENDP
 sumarrestar PROC
         call ingNum
         
-        mov ax, op1
-        add ax, op2
+        mov ax, varOpcion1
+        add ax, varOpcion2
         cmp ax, 65535
         jl mostrarPunto1
-        mov dx, offset msgNoValido
+        mov dx, offset varMensajeInvalido
         call impStr
         call readKey
         jmp showMenu
         
 mostrarPunto1:
 
-        mov ax, op1
-        add ax, op2
-        mov dx, offset msgresultado1
+        mov ax, varOpcion1
+        add ax, varOpcion2
+        mov dx, offset varMensajeResultadoSuma
         call impStr
-        mov bx, offset resultado
+        mov bx, offset varResultado
         call conv_numChar
         
-        mov dx, offset resultado
+        mov dx, offset varResultado
         call impStr
         
-        mov ax, op1
-        cmp ax, op2
+        mov ax, varOpcion1
+        cmp ax, varOpcion2
         jae resta
         jmp restan
 
 restan:        
-        mov dx, offset msgresultado2
+        mov dx, offset varMensajeResultadoResta
         call impStr
-        mov ax, op1
-        sub ax, op2
+        mov ax, varOpcion1
+        sub ax, varOpcion2
         neg ax
-        mov bx, offset resultado
+        mov bx, offset varResultado
         call conv_numChar
         
         mov dx, offset signoResta
         call impStr
         
-        mov dx, offset resultado
+        mov dx, offset varResultado
         call impStr
         call readKey
         jmp showMenu
 resta:
-        mov dx, offset msgresultado2
+        mov dx, offset varMensajeResultadoResta
         call impStr
-        mov ax, op1
-        sub ax, op2
-        mov bx, offset resultado
+        mov ax, varOpcion1
+        sub ax, varOpcion2
+        mov bx, offset varResultado
         call conv_numChar
         
-        mov dx, offset resultado
+        mov dx, offset varResultado
         call impStr
         call readKey
         jmp showMenu
 RET
 ENDP
 divMulti Proc
-        call ingNum2
+        call ingvarNumero2
         ;Division
-        mov ax,op2
+        mov ax,varOpcion2
         cmp ax,0
         je DivCero
         jmp divi
 
         DivCero: 
-        mov dx,offset mensajeE
+        mov dx,offset varMensajeErrorDivisionPor0
         call impStr
         call readKey
         jmp showMenu
 
         divi:
-        mov ax,op1
-        div op2
+        mov ax,varOpcion1
+        div varOpcion2
 
-        mov bx,offset resultadoD
+        mov bx,offset varResultadoDivision
         call conv_numChar
-        mov dx, offset mensajeD
+        mov dx, offset varMensajeResultadoDivision
         call impStr
-        mov dx,offset resultadoD
+        mov dx,offset varResultadoDivision
         call impStr
         ;multiplicacion
-        mov ax,op1
-        mul op2
+        mov ax,varOpcion1
+        mul varOpcion2
 
-        mov bx,offset resultadoM
+        mov bx,offset varResultadoMultiplicicacion
         call conv_numChar
-        mov dx,offset mensajeM
+        mov dx,offset varMensajeResultadoMultiplicacion
         call impStr
 
-        mov dx,offset resultadoM
+        mov dx,offset varResultadoMultiplicicacion
         call impStr
         call readKey
         jmp showMenu
 RET
 ENDP
 leerH proc
-    mov dx, offset msgNumH
+    mov dx, offset varMensajeHexadecimal
     call impStr
     mov ah,3fh
     mov bx,00
     mov cx,6
-    mov dx,offset num1
+    mov dx,offset varNumero1
     int 21h
-    mov si, offset num1
+    mov si, offset varNumero1
     call conv_charNumh
-    mov op1, bx
-    mov op1c, bx
-    mov dx, offset msgNumH
+    mov varOpcion1, bx
+    mov varOpcion1C, bx
+    mov dx, offset varMensajeHexadecimal
     call impStr
     mov ah,3fh
     mov bx,00
     mov cx,6
-    mov dx,offset num2
+    mov dx,offset varNumero2
     int 21h
-    mov si, offset num2
+    mov si, offset varNumero2
     call conv_charNumh
-    mov op2, bx
-    mov op2c, bx
+    mov varOpcion2, bx
+    mov varOpcion2C, bx
 RET
 ENDP 
 hexadecimal proc
     call leerH
-    mov dx, offset msgNum1H
+    mov dx, offset varMensajePrimerNumeroHexa
     call impStr
-    mov bx, op1
+    mov bx, varOpcion1
     mov numero, bx
     call convBin
-    mov dx, offset msgNum2H
+    mov dx, offset varMensajeSegundoNumeroHexa
     call impStr
-    mov bx, op2
+    mov bx, varOpcion2
     mov numero, bx
     call convBin
-     mov dx, offset msgNum1HN
+     mov dx, offset varMensajePrimerNumeroHexaNegado
      call impStr
-     NOT op1c
-     mov ax, op1c
+     NOT varOpcion1C
+     mov ax, varOpcion1C
      sub ax, 65280
      mov numero, ax
      mov bx, ax
      call decHex
      call convBin
-     mov dx, offset msgNum2HN
+     mov dx, offset varMensajeSegundoNumeroHexaNegado
      call impStr
-     NOT op2c
-     mov ax, op2c
+     NOT varOpcion2C
+     mov ax, varOpcion2C
      sub ax, 65280
      mov numero, ax
      mov bx, ax
      call decHex
      call convBin
-     mov dx, offset msgAND
+     mov dx, offset varMensajeResultadoAND
      call impStr
-     mov ax, op1
-     mov bx, op2
+     mov ax, varOpcion1
+     mov bx, varOpcion2
      and ax, bx
      mov numero, ax
      mov bx, ax
      call decHex
      call convBin
-     mov dx, offset msgOR
+     mov dx, offset varMensajeResultadoOR
      call impStr
-     mov ax, op1
-     mov bx, op2
+     mov ax, varOpcion1
+     mov bx, varOpcion2
      OR ax, bx
      mov numero, ax
      mov bx, ax
      call decHex
      call convBin
-     mov dx, offset msgXOR
+     mov dx, offset varMensajeResultadoXOR
      call impStr
-     mov ax, op1
-     mov bx, op2
+     mov ax, varOpcion1
+     mov bx, varOpcion2
      XOR ax, bx
      mov numero, ax
      mov bx, ax
@@ -686,36 +686,36 @@ hexadecimal proc
 RET
 ENDP 
 fibonacci PROC
-    mov op1, 1
-    mov op2, 1
-    mov cont, 1
-    mov ax, op1
-    mov bx, offset resultado
+    mov varOpcion1, 1
+    mov varOpcion2, 1
+    mov varCont, 1
+    mov ax, varOpcion1
+    mov bx, offset varResultado
     call conv_numChar
-    mov dx, offset resultado
+    mov dx, offset varResultado
     call impStr
     mov dx, offset coma
     call impStr
-    mov ax, op2
-    mov bx, offset resultado
+    mov ax, varOpcion2
+    mov bx, offset varResultado
     call conv_numChar
-    mov dx, offset resultado
+    mov dx, offset varResultado
     call impStr
     cicloFibo:
     mov dx, offset coma
     call impStr
-    add cont,1
-    mov ax, op2
-    mov temp, ax
-    add ax, op1
-    mov op2, ax
-    mov bx, offset resultado
+    add varCont,1
+    mov ax, varOpcion2
+    mov varTemporal, ax
+    add ax, varOpcion1
+    mov varOpcion2, ax
+    mov bx, offset varResultado
     call conv_numChar
-    mov dx, offset resultado
+    mov dx, offset varResultado
     call impStr
-    mov ax, temp
-    mov op1, ax
-    mov al, cont
+    mov ax, varTemporal
+    mov varOpcion1, ax
+    mov al, varCont
     cmp al, 14
     jb cicloFibo
     call readKey
@@ -723,14 +723,14 @@ ret
 ENDP
 valPasword PROC
     
-    add cont,1
-    mov al, cont
+    add varCont,1
+    mov al, varCont
     cmp al,3 ; valida el numero de intentos
     jg salir
     
     call ingresarpasword ;pide contrase?a
-    lea si,aux  ;cargamos en si la contrase?a ingresada
-    lea di,password ;cargamos en di la contrase?a almacenada
+    lea si,varAuxiliar  ;cargamos en si la contrase?a ingresada
+    lea di,varPassword ;cargamos en di la contrase?a almacenada
     mov cx,8
     repe cmpsb  ;valida contrase?a
     je posswordOk
@@ -755,11 +755,11 @@ INICIO PROC
        
 showMenu:   
 
-        mov dx, offset menu     
+        mov dx, offset varMenu     
         call impStr
 
 opciones:
-        mov dx, offset msg
+        mov dx, offset varLecturaOpcion
         call impStr
         
         mov ah, 00  ;leer caracer del teclado
@@ -780,7 +780,7 @@ opciones:
         cmp al, "0"
         je salir
         
-        mov dx, offset msgOpcNoValida
+        mov dx, offset varMensajeOpcionInvalida
         call impStr
         call readKey
         jmp showMenu ; se vuelve a pedir el numero en caso que la opcion digitada no sea valida 
