@@ -11,7 +11,7 @@ bufSize EQU 121
         password        DB "tallerac", CHR_FIN
         msgpassword     DB "Ingrese su password: ", CHR_FIN
         
-        signoResta           DB "-", CHR_FIN
+        signoResta      DB "-", CHR_FIN
         coma            DB ",", CHR_FIN
         msgpasinvalida  db VAL_LF, VAL_RET,"Password Invalida", VAL_LF, VAL_RET, CHR_FIN
         msgpasswordok   db VAL_LF, VAL_RET,"Password Correcta",VAL_LF, VAL_RET, CHR_FIN
@@ -27,7 +27,7 @@ bufSize EQU 121
         opc6            DB "|  0.- Salir                         |", VAL_LF, VAL_RET;
         opc7            DB "|------------------------------------|", VAL_LF, VAL_RET, CHR_FIN;
         
-        msgNoValido     DB "Datos ingresados fuera de rango", VAL_LF, VAL_RET, CHR_FIN;
+        msgNoValido     DB VAL_LF, VAL_RET,"Datos ingresados fuera de rango", VAL_LF, VAL_RET, CHR_FIN;
 
         msg             DB "Digite la opcion a realizar: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNum1         DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
@@ -84,17 +84,47 @@ impStr PROC
 ENDP
 ingresarpasword PROC 
     mov dx, offset msgpassword
-    call impStr 
-    mov ah,3fh
-    mov bx,00
-    mov cx,8
-    mov dx,offset aux
+    call impStr
+    mov di,offset aux
+    mov cx,8h
+lecture:    
+    ;leer un caracter
+    mov ah,7h
     int 21h
+    
+    ;guardar el caracter leido
+    stosb
+    
+    ;imprimir asterisco
+    mov ah,6h   
+    mov dl,'*'
+    int 21h
+    
+    
+    loop lecture
     ret 
 ENDP 
+    ;AH = 06
+    ;DL = (0-FE) character to output
+    ;= FF if console input request
+    ;
+       ;on return:
+    ;AL = input character if console input request (DL=FF)
+    ;ZF = 0  if console request character available (in AL)
+    ;= 1  if no character is ready, and function request
+       ;was console input
+         ;
+         ;
+         ;- reads from or writes to the console device depending on
+    ;the value of DL
+      ;- cannot output character FF  (DL=FF indicates read function)
+    ;- for console read, no echo is produced
+    ;- returns 0 for extended keystroke, then function must be
+    ;called again to return scan code
+    ;    - ignores Ctrl-Break and Ctrl-PrtSc
 
 ingNum PROC
-    mov dx, offset msgNum1
+    mov dx, offset msgNum3
     call impStr
     mov ah,3fh
     mov bx,00
@@ -107,7 +137,7 @@ ingNum PROC
     mov op1, bx
     mov op1c,bx
     
-    mov dx, offset msgNum2
+    mov dx, offset msgNum4
     call impStr
     mov ah,3fh
     mov bx,00
@@ -123,7 +153,7 @@ ingNum PROC
     RET
 ENDP
 ingNum2 PROC
-    mov dx, offset msgNum3
+    mov dx, offset msgNum1
     call impStr
     mov ah,3fh
     mov bx,00
@@ -136,7 +166,7 @@ ingNum2 PROC
     mov op1, bx
     mov op1c,bx
     
-    mov dx, offset msgNum4
+    mov dx, offset msgNum2
     call impStr
     mov ah,3fh
     mov bx,00
@@ -169,9 +199,9 @@ atoi proc NEAR
   lodsb       ;carga byte apuntado por SI en AL
               ;e incrementa si
   cmp al,'0'  ;es numero ascii? [0-9]
-  jb noascii  ;no, salir
+  jl noascii  ;no, salir
   cmp al,'9'
-  ja noascii  ;no, salir
+  jg noascii  ;no, salir
 
   sub al,30h  ;ascii '0'=30h, ascii '1'=31h...etc.
   cbw         ;byte a word
@@ -476,19 +506,17 @@ sumarrestar PROC
         
         mov ax, op1
         add ax, op2
-        cmp ax, 65000
+        cmp ax, 65535
         jl mostrarPunto1
-        jg fueraRango
-
-fueraRango:
         mov dx, offset msgNoValido
         call impStr
-        call itoa
         call readKey
         jmp showMenu
         
 mostrarPunto1:
 
+        mov ax, op1
+        add ax, op2
         mov dx, offset msgresultado1
         call impStr
         mov bx, offset resultado
@@ -703,6 +731,7 @@ valPasword PROC
     call ingresarpasword ;pide contrase?a
     lea si,aux  ;cargamos en si la contrase?a ingresada
     lea di,password ;cargamos en di la contrase?a almacenada
+    mov cx,8
     repe cmpsb  ;valida contrase?a
     je posswordOk
     mov dx, offset msgpasinvalida
