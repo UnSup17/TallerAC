@@ -130,7 +130,7 @@ ingNum PROC
     int 21h
     
     mov si, offset num1
-    call atoi
+    call conv_charNum
     mov op1, bx
     mov op1c,bx
     
@@ -143,7 +143,7 @@ ingNum PROC
     int 21h
     
     mov si, offset num2
-    call atoi
+    call conv_charNum
     mov op2, bx
     mov op2c, bx
     
@@ -159,7 +159,7 @@ ingNum2 PROC
     int 21h
     
     mov si, offset num1
-    call atoi
+    call conv_charNum
     mov op1, bx
     mov op1c,bx
     
@@ -172,7 +172,7 @@ ingNum2 PROC
     int 21h
     
     mov si, offset num2
-    call atoi
+    call conv_charNum
     mov op2, bx
     mov op2c, bx
     
@@ -183,16 +183,16 @@ mov dx, offset resultado
    call impStr
 RET
 ENDP
-;atoi 
+;conv_charNum
 ; ========= Convertir cadena a numero =====================
 ; Parametros
 ; si: offset inicial de la cadena con respecto a DS
 ; Retorna
 ; bx: valor
-atoi proc NEAR
+conv_charNum proc NEAR
   xor bx,bx   ;BX = 0
 
-  atoi_1:
+  conv_charNum_1:
   lodsb       ;carga byte apuntado por SI en AL
               ;e incrementa si
   cmp al,'0'  ;es numero ascii? [0-9]
@@ -209,20 +209,20 @@ atoi proc NEAR
   mov bx,ax
   pop ax
   add bx,ax
-  jmp atoi_1  ;seguir mientras SI apunte a un numero ascii
+  jmp conv_charNum_1  ;seguir mientras SI apunte a un numero ascii
   noascii:
   ret         ;BX tiene el valor final
-atoi endp
-;atoi H
+conv_charNum endp
+;conv_charNum H
 ; ========= Convertir cadena a numero =====================
 ; Parametros
 ; si: offset inicial de la cadena con respecto a DS
 ; Retorna
 ; bx: valor
-atoih proc NEAR
+conv_charNumh proc NEAR
   xor bx,bx   ;BX = 0
 
-  atoi_1h:
+  conv_charNum_1h:
   lodsb       ;carga byte apuntado por SI en AL
               ;e incrementa si
   cmp al,'A'
@@ -257,22 +257,22 @@ atoih proc NEAR
   mov bx,ax
   pop ax
   add bx,ax
-  jmp atoi_1h  ;seguir mientras SI apunte a un numero ascii
+  jmp conv_charNum_1h  ;seguir mientras SI apunte a un numero ascii
   noasciii:
   ret         ;BX tiene el valor final
-  atoih endp
+  conv_charNumh endp
 ; =============== Convertir numero a cadena ===============
 ; Parametros
 ; ax: valor
 ; bx: donde guardar la cadena final
 ; Retorna
 ; cadena
-itoa proc NEAR
+conv_numChar proc NEAR
   xor cx,cx  ;CX = 0
 
-  itoa_1:
-  cmp ax,0   ; El ciclo itoa_1 extrae los digitos del
-  je itoa_2  ; menos al mas significativo de AX y los
+  conv_numChar_1:
+  cmp ax,0   ; El ciclo conv_numChar_1 extrae los digitos del
+  je conv_numChar_2  ; menos al mas significativo de AX y los
              ; guarda en el stack. Al finalizar el 
   xor dx,dx  ; ciclo el digito mas significativo esta
   push bx    ; arriba del stack.
@@ -281,28 +281,28 @@ itoa proc NEAR
   pop bx
   push dx
   inc cx
-  jmp itoa_1
+  jmp conv_numChar_1
 
-  itoa_2:
+  conv_numChar_2:
   cmp cx,0    ; Esta seccion maneja el caso cuando
-  ja itoa_3   ; el numero a convertir (AX) es 0.
+  ja conv_numChar_3   ; el numero a convertir (AX) es 0.
   mov ax,'0'  ; En este caso, el ciclo anterior
   mov [bx],ax ; no guarda valores en el stack y
   inc bx      ; CX tiene el valor 0
-  jmp itoa_4
+  jmp conv_numChar_4
 
-  itoa_3:
+  conv_numChar_3:
   pop ax      ; Extraemos los numero del stack
   add ax,30h  ; lo pasamos a su valor ascii
   mov [bx],ax ; lo guardamos en la cadena final
   inc bx
-  loop itoa_3
+  loop conv_numChar_3
 
-  itoa_4:
+  conv_numChar_4:
   mov ax,'$'  ; terminar cadena con '$' para 
   mov [bx],ax ; imprimirla con la INT21h/AH=9
   ret
-itoa endp
+conv_numChar endp
 
 convBin proc near
        mov ax, numero + 0
@@ -395,7 +395,7 @@ ret
 convBin endp
 auxhtob proc
     mov bx, offset resultado
-    call itoa
+    call conv_numChar
     mov dx, offset resultado
     call impStr
     mov dx, offset signoResta
@@ -421,7 +421,7 @@ comp PROC
     jbe menor
     menor:
     mov bx, offset resultado
-    call itoa
+    call conv_numChar
     mov dx, offset resultado
     call impStr
     ret
@@ -517,7 +517,7 @@ mostrarPunto1:
         mov dx, offset msgresultado1
         call impStr
         mov bx, offset resultado
-        call itoa
+        call conv_numChar
         
         mov dx, offset resultado
         call impStr
@@ -534,7 +534,7 @@ restan:
         sub ax, op2
         neg ax
         mov bx, offset resultado
-        call itoa
+        call conv_numChar
         
         mov dx, offset signoResta
         call impStr
@@ -549,7 +549,7 @@ resta:
         mov ax, op1
         sub ax, op2
         mov bx, offset resultado
-        call itoa
+        call conv_numChar
         
         mov dx, offset resultado
         call impStr
@@ -576,7 +576,7 @@ divMulti Proc
         div op2
 
         mov bx,offset resultadoD
-        call itoa
+        call conv_numChar
         mov dx, offset mensajeD
         call impStr
         mov dx,offset resultadoD
@@ -586,7 +586,7 @@ divMulti Proc
         mul op2
 
         mov bx,offset resultadoM
-        call itoa
+        call conv_numChar
         mov dx,offset mensajeM
         call impStr
 
@@ -605,7 +605,7 @@ leerH proc
     mov dx,offset num1
     int 21h
     mov si, offset num1
-    call atoih
+    call conv_charNumh
     mov op1, bx
     mov op1c, bx
     mov dx, offset msgNumH
@@ -616,7 +616,7 @@ leerH proc
     mov dx,offset num2
     int 21h
     mov si, offset num2
-    call atoih
+    call conv_charNumh
     mov op2, bx
     mov op2c, bx
 RET
@@ -688,14 +688,14 @@ fibonacci PROC
     mov cont, 1
     mov ax, op1
     mov bx, offset resultado
-    call itoa
+    call conv_numChar
     mov dx, offset resultado
     call impStr
     mov dx, offset coma
     call impStr
     mov ax, op2
     mov bx, offset resultado
-    call itoa
+    call conv_numChar
     mov dx, offset resultado
     call impStr
     cicloFibo:
@@ -707,7 +707,7 @@ fibonacci PROC
     add ax, op1
     mov op2, ax
     mov bx, offset resultado
-    call itoa
+    call conv_numChar
     mov dx, offset resultado
     call impStr
     mov ax, temp
