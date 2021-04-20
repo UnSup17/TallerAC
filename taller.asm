@@ -30,12 +30,12 @@ bufSize EQU 121
         msgNoValido     DB VAL_LF, VAL_RET,"Datos ingresados fuera de rango", VAL_LF, VAL_RET, CHR_FIN;
 
         msg             DB "Digite la opcion a realizar: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNum1         DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNum2         DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNum3         DB "Ingrese primer numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNum4         DB "Ingrese segundo numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
+        msgSuma1        DB "Ingrese primer numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
+        msgSuma2        DB "Ingrese segundo numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
+        msgMult1        DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
+        msgMult2        DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
         msgNumH         DB "Ingrese un numero Hexadecimal de 2 digitos: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgOpcNoValida   DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
+        msgOpcNoValida  DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
         msgresultado1   DB VAL_LF, VAL_RET, "Resultado Suma: ",CHR_FIN
         msgresultado2   DB VAL_LF, VAL_RET, "Resultado Resta: ",CHR_FIN
         mensajeM        DB VAL_LF, VAL_RET, "Resultado Multiplicacion: ",CHR_FIN
@@ -44,11 +44,11 @@ bufSize EQU 121
         msgBinario      DB " ", CHR_FIN;
         msgNum1H        DB VAL_LF, VAL_RET,"Primer Hexadecimal en Binario: ", CHR_FIN;
         msgNum2H        DB "Segundo Hexadecimal en Binario:  ", CHR_FIN;
-        msgNum1HN        DB "Primer Hexadecimal Negado en Binario: ", CHR_FIN;
+        msgNum1HN       DB "Primer Hexadecimal Negado en Binario: ", CHR_FIN;
         msgNum2HN       DB "Segundo Hexadecimal Negado en Binario: ", CHR_FIN;
-        msgAND       DB "Resultado AND: ", CHR_FIN;
-        msgOR       DB "Resultado OR: ", CHR_FIN;
-        msgXOR       DB "Resultado XOR: ", CHR_FIN;
+        msgAND          DB "Resultado AND: ", CHR_FIN;
+        msgOR           DB "Resultado OR: ", CHR_FIN;
+        msgXOR          DB "Resultado XOR: ", CHR_FIN;
         binario         DB "00000000", VAL_LF, VAL_RET, CHR_FIN;
         letra DB "A", CHR_FIN;
         numero          Dw 0 
@@ -63,7 +63,7 @@ bufSize EQU 121
         op2c dw ?
         temp dw ?
         cociente dw ?
-        residuoo dw ?
+        residuo dw ?
         auxres dw ?
         resultado db 6 DUP(?)
         resultadoNOT db 6 DUP(?)
@@ -71,9 +71,6 @@ bufSize EQU 121
         resultadoOR db 6 DUP(?)
         resultadoM dB 1000 dup(' '),'$'
         resultadoD dB 1000 dup(' '),'$'
-        residuo db ?
-        
-        
         
 .code
 
@@ -124,7 +121,7 @@ ENDP
     ;    - ignores Ctrl-Break and Ctrl-PrtSc
 
 ingNum PROC
-    mov dx, offset msgNum3
+    mov dx, offset msgSuma1
     call impStr
     mov ah,3fh
     mov bx,00
@@ -137,7 +134,7 @@ ingNum PROC
     mov op1, bx
     mov op1c,bx
     
-    mov dx, offset msgNum4
+    mov dx, offset msgSuma2
     call impStr
     mov ah,3fh
     mov bx,00
@@ -153,7 +150,7 @@ ingNum PROC
     RET
 ENDP
 ingNum2 PROC
-    mov dx, offset msgNum1
+    mov dx, offset msgMult1
     call impStr
     mov ah,3fh
     mov bx,00
@@ -166,7 +163,7 @@ ingNum2 PROC
     mov op1, bx
     mov op1c,bx
     
-    mov dx, offset msgNum2
+    mov dx, offset msgMult2
     call impStr
     mov ah,3fh
     mov bx,00
@@ -484,10 +481,10 @@ decHex PROC
    mov auxres, ax
    mov ax, bx
    sub ax, auxres
-   mov residuoo, ax
+   mov residuo, ax
    mov ax, cociente
    call comp
-   mov ax, residuoo
+   mov ax, residuo
    call comp
 RET
 ENDP 
