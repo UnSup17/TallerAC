@@ -79,6 +79,19 @@ impStr PROC
     int 21h
     RET
 ENDP
+
+readKey PROC
+        mov dx, offset msgReadKey
+        call impStr
+        mov ah, 00  ;leer caracer del teclado
+        int 16h
+        call limpiar;
+        call limpiar;
+    ret
+ENDP
+
+
+
 ingresarpasword PROC 
     mov dx, offset msgpassword
     call impStr
@@ -100,167 +113,43 @@ lecture:
     
     loop lecture
     ret 
-ENDP 
-    ;AH = 06
-    ;DL = (0-FE) character to output
-    ;= FF if console input request
-    ;
-       ;on return:
-    ;AL = input character if console input request (DL=FF)
-    ;ZF = 0  if console request character available (in AL)
-    ;= 1  if no character is ready, and function request
-       ;was console input
-         ;
-         ;
-         ;- reads from or writes to the console device depending on
-    ;the value of DL
-      ;- cannot output character FF  (DL=FF indicates read function)
-    ;- for console read, no echo is produced
-    ;- returns 0 for extended keystroke, then function must be
-    ;called again to return scan code
-    ;    - ignores Ctrl-Break and Ctrl-PrtSc
-
-ingNum PROC
-    mov dx, offset msgSuma1
-    call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num1
-    int 21h
-    
-    mov si, offset num1
-    call conv_charNum
-    mov op1, bx
-    mov op1c,bx
-    
-    mov dx, offset msgSuma2
-    call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num2
-    int 21h
-    
-    mov si, offset num2
-    call conv_charNum
-    mov op2, bx
-    mov op2c, bx
-    
-    RET
 ENDP
-ingNum2 PROC
-    mov dx, offset msgMult1
+
+
+
+auxhtob proc
+    mov bx, offset resultado
+    call conv_numChar
+    mov dx, offset resultado
     call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num1
-    int 21h
-    
-    mov si, offset num1
-    call conv_charNum
-    mov op1, bx
-    mov op1c,bx
-    
-    mov dx, offset msgMult2
+    mov dx, offset signoResta
     call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num2
-    int 21h
-    
-    mov si, offset num2
-    call conv_charNum
-    mov op2, bx
-    mov op2c, bx
-    
-    RET
-ENDP
-impR proc
-mov dx, offset resultado
-   call impStr
-RET
-ENDP
-;conv_charNum
-; ========= Convertir cadena a numero =====================
-; Parametros
-; si: offset inicial de la cadena con respecto a DS
-; Retorna
-; bx: valor
-conv_charNum proc NEAR
-  xor bx,bx   ;BX = 0
+ret
+endp
 
-  conv_charNum_1:
-  lodsb       ;carga byte apuntado por SI en AL
-              ;e incrementa si
-  cmp al,'0'  ;es numero ascii? [0-9]
-  jl noascii  ;no, salir
-  cmp al,'9'
-  jg noascii  ;no, salir
+;Punto 2. Color consola
+;       Presentar un men? en pantalla con un color de fondo y letras visibles adecuadas al color de fondo
+;       seleccionado que permita ejecutar las siguientes opciones
+limpiar PROC
+        mov ah,06h
+        mov bH,01110000B
+        mov cx,0000h
+        mov dx,184fh
+        int 10h
+           
+        MOV AH,02H   ;Para posicionar el cursor
+        MOV BH,00H   ;Coloco en la pagina 0
+        MOV DX,0000H ;Establesco las coordenadas, x=dh=renglon y=dl=columna
+        INT 10H      ;ejecuto la interrupci?n 
+        ret
+        ENDP
 
-  sub al,30h  ;ascii '0'=30h, ascii '1'=31h...etc.
-  cbw         ;byte a word
-  push ax
-  mov ax,bx   ;BX tendra el valor final
-  mov cx,10
-  mul cx      ;AX=AX*10
-  mov bx,ax
-  pop ax
-  add bx,ax
-  jmp conv_charNum_1  ;seguir mientras SI apunte a un numero ascii
-  noascii:
-  ret         ;BX tiene el valor final
-conv_charNum endp
-;conv_charNum H
-; ========= Convertir cadena a numero =====================
-; Parametros
-; si: offset inicial de la cadena con respecto a DS
-; Retorna
-; bx: valor
-conv_charNumh proc NEAR
-  xor bx,bx   ;BX = 0
 
-  conv_charNum_1h:
-  lodsb       ;carga byte apuntado por SI en AL
-              ;e incrementa si
-  cmp al,'A'
-  je ascstr
-  cmp al,'B'
-  je ascstr
-  cmp al,'C'
-  je ascstr
-  cmp al,'D'
-  je ascstr
-  cmp al,'E'
-  je ascstr
-  cmp al,'F'
-  je ascstr
-  cmp al,'0'  ;es numero ascii? [0-9]
-  jb noasciii  ;no, salir
-  cmp al,'9'
-  ja noasciii  ;no, salir
-  jmp ascnum
-  ascnum:
-  sub al,30h  ;ascii '0'=30h, ascii '1'=31h...etc.
-  jmp general
-  ascstr:
-  sub al,37h
-  jmp general
-  general:
-  cbw         ;byte a word
-  push ax
-  mov ax,bx   ;BX tendra el valor final
-  mov cx,16
-  mul cx      ;AX=AX*16
-  mov bx,ax
-  pop ax
-  add bx,ax
-  jmp conv_charNum_1h  ;seguir mientras SI apunte a un numero ascii
-  noasciii:
-  ret         ;BX tiene el valor final
-  conv_charNumh endp
+;Punto 3. Suma y resta
+;       Solicitar dos n?meros en el rango de 0 a 65535, realizar la suma, diferencia y presentar el resultado
+;       en forma legible por las personas. No deben presentarse ceros a la izquierda de los n?meros, si el
+;       n?mero es negativo debe anteponerse el signo menos (-)
+
 ; =============== Convertir numero a cadena ===============
 ; Parametros
 ; ax: valor
@@ -303,6 +192,347 @@ conv_numChar proc NEAR
   mov [bx],ax ; imprimirla con la INT21h/AH=9
   ret
 conv_numChar endp
+
+;conv_charNum
+; ========= Convertir cadena a numero =====================
+; Parametros
+; si: offset inicial de la cadena con respecto a DS
+; Retorna
+; bx: valor
+conv_charNum proc NEAR
+  xor bx,bx   ;BX = 0
+
+  conv_charNum_1:
+  lodsb       ;carga byte apuntado por SI en AL
+              ;e incrementa si
+  cmp al,'0'  ;es numero ascii? [0-9]
+  jl noascii  ;no, salir
+  cmp al,'9'
+  jg noascii  ;no, salir
+
+  sub al,30h  ;ascii '0'=30h, ascii '1'=31h...etc.
+  cbw         ;byte a word
+  push ax
+  mov ax,bx   ;BX tendra el valor final
+  mov cx,10
+  mul cx      ;AX=AX*10
+  mov bx,ax
+  pop ax
+  add bx,ax
+  jmp conv_charNum_1  ;seguir mientras SI apunte a un numero ascii
+  noascii:
+  ret         ;BX tiene el valor final
+conv_charNum endp
+
+ingNum PROC
+    mov dx, offset msgSuma1
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset num1
+    int 21h
+    
+    mov si, offset num1
+    call conv_charNum
+    mov op1, bx
+    mov op1c,bx
+    
+    mov dx, offset msgSuma2
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset num2
+    int 21h
+    
+    mov si, offset num2
+    call conv_charNum
+    mov op2, bx
+    mov op2c, bx
+    
+    RET
+ENDP
+
+sumarrestar PROC
+        call ingNum
+        mov dx, offset msgresultado1
+        call impStr
+        mov ax, op1
+        add ax, op2
+        mov bx, offset resultado
+        call conv_NumChar
+        
+        mov dx, offset resultado
+        call impStr
+        
+        mov ax, op1
+        cmp ax, op2
+        jae resta
+        jmp restan
+
+restan:        
+        mov dx, offset msgresultado2
+        call impStr
+        mov ax, op1
+        sub ax, op2
+        neg ax
+        mov bx, offset resultado
+        call conv_numChar
+        
+        mov dx, offset signoResta
+        call impStr
+        
+        mov dx, offset resultado
+        call impStr
+        call readKey
+        jmp showMenu
+resta:
+        mov dx, offset msgresultado2
+        call impStr
+        mov ax, op1
+        sub ax, op2
+        mov bx, offset resultado
+        call conv_numChar
+        
+        mov dx, offset resultado
+        call impStr
+        call readKey
+        jmp showMenu
+RET
+ENDP
+
+;Punto 4. Multiplicacion y division
+;       Solicitar dos n?meros en el rango de 0 a 255, realizar la multiplicaci?n, divisi?n y presentar el 
+;       resultado en forma legible por las personas. No deben presentarse ceros a la izquierda de los n?meros
+
+
+ingNum2 PROC
+    mov dx, offset msgMult1
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset num1
+    int 21h
+    
+    mov si, offset num1
+    call conv_charNum
+    mov op1, bx
+    mov op1c,bx
+    
+    mov dx, offset msgMult2
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset num2
+    int 21h
+    
+    mov si, offset num2
+    call conv_charNum
+    mov op2, bx
+    mov op2c, bx
+    
+    RET
+ENDP
+
+divMulti Proc
+        call ingNum2
+        ;Division
+        mov ax,op2
+        cmp ax,0
+        je DivCero
+        jmp divi
+
+        DivCero: 
+        mov dx,offset mensajeE
+        call impStr
+        call readKey
+        jmp showMenu
+
+        divi:
+        mov ax,op1
+        div op2
+
+        mov bx,offset resultadoD
+        call conv_numChar
+        mov dx, offset mensajeD
+        call impStr
+        mov dx,offset resultadoD
+        call impStr
+        mov ax,op1
+        mul op2
+
+        mov bx,offset resultadoM
+        call conv_numChar
+        mov dx,offset mensajeM
+        call impStr
+
+        mov dx,offset resultadoM
+        call impStr
+        call readKey
+        jmp showMenu
+RET
+ENDP
+
+;Punto 5. Dos Hexadecimales
+;       Solicitar dos n?meros hexadecimales de dos d?gitos (00 a FF), presentar la forma binaria de cada uno
+;        de los dos n?meros y la aplicaci?n de la operaci?n NOT a cada uno de ellos (presentados en pantalla
+;       tanto en forma hexadecimal como binaria). Realizar las operaciones l?gicas AND, OR y XOR sobre los
+;       dos n?meros, presentar los resultados tanto en forma hexadecimal como binaria
+
+;conv_charNum H
+; ========= Convertir cadena a numero =====================
+; Parametros
+; si: offset inicial de la cadena con respecto a DS
+; Retorna
+; bx: valor
+
+comp PROC
+    cmp ax, 9
+    ja mayor
+    jbe menor
+    menor:
+    mov bx, offset resultado
+    call conv_numChar
+    mov dx, offset resultado
+    call impStr
+    ret
+    mayor:
+    cmp ax, 10
+    je a
+    cmp ax, 11
+    je b
+    cmp ax, 12
+    je c
+    cmp ax, 13
+    je d
+    cmp ax, 14
+    je e
+    cmp ax, 15
+    je f
+    a:
+    mov letra, 'A'
+    mov dx, offset letra
+    call impStr
+    ret
+    b:
+    mov letra, 'B'
+    mov dx, offset letra
+    call impStr
+    ret
+    c:
+    mov letra, 'C'
+    mov dx, offset letra
+    call impStr
+    ret
+    d:
+    mov letra, 'D'
+    mov dx, offset letra
+    call impStr
+    ret
+    e:
+    mov letra, 'E'
+    mov dx, offset letra
+    call impStr
+    ret
+    f:
+    mov letra, 'F'
+    mov dx, offset letra
+    call impStr
+    ret
+ret
+ENDP
+decHex PROC
+    mov ax, bx
+   mov cx, 4
+   ror ax,cl
+   and ax,0fh
+   mov cociente,ax
+   mov ax, 16
+   mul cociente
+   mov auxres, ax
+   mov ax, bx
+   sub ax, auxres
+   mov residuo, ax
+   mov ax, cociente
+   call comp
+   mov ax, residuo
+   call comp
+RET
+ENDP 
+
+
+conv_charNumh proc NEAR
+  xor bx,bx   ;BX = 0
+
+  conv_charNum_1h:
+  lodsb       ;carga byte apuntado por SI en AL
+              ;e incrementa si
+  cmp al,'A'
+  je ascstr
+  cmp al,'B'
+  je ascstr
+  cmp al,'C'
+  je ascstr
+  cmp al,'D'
+  je ascstr
+  cmp al,'E'
+  je ascstr
+  cmp al,'F'
+  je ascstr
+  cmp al,'0'  ;es numero ascii? [0-9]
+  jb noasciii  ;no, salir
+  cmp al,'9'
+  ja noasciii  ;no, salir
+  jmp ascnum
+  ascnum:
+  sub al,30h  ;ascii '0'=30h, ascii '1'=31h...etc.
+  jmp general
+  ascstr:
+  sub al,37h
+  jmp general
+  general:
+  cbw         ;byte a word
+  push ax
+  mov ax,bx   ;BX tendra el valor final
+  mov cx,16
+  mul cx      ;AX=AX*16
+  mov bx,ax
+  pop ax
+  add bx,ax
+  jmp conv_charNum_1h  ;seguir mientras SI apunte a un numero ascii
+  noasciii:
+  ret         ;BX tiene el valor final
+  conv_charNumh endp
+
+leerH proc
+    mov dx, offset msgNumH
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset num1
+    int 21h
+    mov si, offset num1
+    call conv_charNumh
+    mov op1, bx
+    mov op1c, bx
+    mov dx, offset msgNumH
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset num2
+    int 21h
+    mov si, offset num2
+    call conv_charNumh
+    mov op2, bx
+    mov op2c, bx
+RET
+ENDP 
+
 
 convBin proc near
        mov ax, numero + 0
@@ -393,234 +623,7 @@ convBin proc near
         call impStr
 ret
 convBin endp
-auxhtob proc
-    mov bx, offset resultado
-    call conv_numChar
-    mov dx, offset resultado
-    call impStr
-    mov dx, offset signoResta
-    call impStr
-ret
-endp
-limpiar PROC
-        mov ah,06h
-        mov bH,01110000B
-        mov cx,0000h
-        mov dx,184fh
-        int 10h
-           
-        MOV AH,02H   ;Para posicionar el cursor
-        MOV BH,00H   ;Coloco en la pagina 0
-        MOV DX,0000H ;Establesco las coordenadas, x=dh=renglon y=dl=columna
-        INT 10H      ;ejecuto la interrupci?n 
-        ret
-        ENDP
-comp PROC
-    cmp ax, 9
-    ja mayor
-    jbe menor
-    menor:
-    mov bx, offset resultado
-    call conv_numChar
-    mov dx, offset resultado
-    call impStr
-    ret
-    mayor:
-    cmp ax, 10
-    je a
-    cmp ax, 11
-    je b
-    cmp ax, 12
-    je c
-    cmp ax, 13
-    je d
-    cmp ax, 14
-    je e
-    cmp ax, 15
-    je f
-    a:
-    mov letra, 'A'
-    mov dx, offset letra
-    call impStr
-    ret
-    b:
-    mov letra, 'B'
-    mov dx, offset letra
-    call impStr
-    ret
-    c:
-    mov letra, 'C'
-    mov dx, offset letra
-    call impStr
-    ret
-    d:
-    mov letra, 'D'
-    mov dx, offset letra
-    call impStr
-    ret
-    e:
-    mov letra, 'E'
-    mov dx, offset letra
-    call impStr
-    ret
-    f:
-    mov letra, 'F'
-    mov dx, offset letra
-    call impStr
-    ret
-ret
-ENDP
-decHex PROC
-    mov ax, bx
-   mov cx, 4
-   ror ax,cl
-   and ax,0fh
-   mov cociente,ax
-   mov ax, 16
-   mul cociente
-   mov auxres, ax
-   mov ax, bx
-   sub ax, auxres
-   mov residuo, ax
-   mov ax, cociente
-   call comp
-   mov ax, residuo
-   call comp
-RET
-ENDP 
-readKey PROC
-        mov dx, offset msgReadKey
-        call impStr
-        mov ah, 00  ;leer caracer del teclado
-        int 16h
-        call limpiar;
-        call limpiar;
-    ret
-ENDP
 
-sumarrestar PROC
-        call ingNum
-        
-        mov ax, op1
-        add ax, op2
-        cmp ax, 65535
-        jl mostrarPunto1
-        mov dx, offset msgNoValido
-        call impStr
-        call readKey
-        jmp showMenu
-        
-mostrarPunto1:
-
-        mov ax, op1
-        add ax, op2
-        mov dx, offset msgresultado1
-        call impStr
-        mov bx, offset resultado
-        call conv_numChar
-        
-        mov dx, offset resultado
-        call impStr
-        
-        mov ax, op1
-        cmp ax, op2
-        jae resta
-        jmp restan
-
-restan:        
-        mov dx, offset msgresultado2
-        call impStr
-        mov ax, op1
-        sub ax, op2
-        neg ax
-        mov bx, offset resultado
-        call conv_numChar
-        
-        mov dx, offset signoResta
-        call impStr
-        
-        mov dx, offset resultado
-        call impStr
-        call readKey
-        jmp showMenu
-resta:
-        mov dx, offset msgresultado2
-        call impStr
-        mov ax, op1
-        sub ax, op2
-        mov bx, offset resultado
-        call conv_numChar
-        
-        mov dx, offset resultado
-        call impStr
-        call readKey
-        jmp showMenu
-RET
-ENDP
-divMulti Proc
-        call ingNum2
-        ;Division
-        mov ax,op2
-        cmp ax,0
-        je DivCero
-        jmp divi
-
-        DivCero: 
-        mov dx,offset mensajeE
-        call impStr
-        call readKey
-        jmp showMenu
-
-        divi:
-        mov ax,op1
-        div op2
-
-        mov bx,offset resultadoD
-        call conv_numChar
-        mov dx, offset mensajeD
-        call impStr
-        mov dx,offset resultadoD
-        call impStr
-        ;multiplicacion
-        mov ax,op1
-        mul op2
-
-        mov bx,offset resultadoM
-        call conv_numChar
-        mov dx,offset mensajeM
-        call impStr
-
-        mov dx,offset resultadoM
-        call impStr
-        call readKey
-        jmp showMenu
-RET
-ENDP
-leerH proc
-    mov dx, offset msgNumH
-    call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num1
-    int 21h
-    mov si, offset num1
-    call conv_charNumh
-    mov op1, bx
-    mov op1c, bx
-    mov dx, offset msgNumH
-    call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num2
-    int 21h
-    mov si, offset num2
-    call conv_charNumh
-    mov op2, bx
-    mov op2c, bx
-RET
-ENDP 
 hexadecimal proc
     call leerH
     mov dx, offset msgNum1H
@@ -682,6 +685,9 @@ hexadecimal proc
      call limpiar
 RET
 ENDP 
+
+;Punto 6. Fibonacci
+;       Generar los primeros quince (15) n?meros de la serie Fibonacci: 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610
 fibonacci PROC
     mov op1, 1
     mov op2, 1
@@ -718,6 +724,11 @@ fibonacci PROC
     call readKey
 ret 
 ENDP
+
+;Punto 1. Password
+;       Para ingresar al sistema debe digitar una contrase?a y ser comparada con una palabra fija de 8
+;       car?cteres y residente en memoria, en caso de igualdad es presentado el men? principal del programa.
+;       Despu?s de tres intentos errados sale del programa. Al introducir cada car?cter debe imprimir un *
 valPasword PROC
     
     add cont,1
@@ -750,8 +761,7 @@ INICIO PROC
         call impStr
         jmp showMenu
        
-showMenu:   
-
+showMenu:
         mov dx, offset menu     
         call impStr
 
