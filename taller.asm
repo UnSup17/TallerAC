@@ -8,69 +8,72 @@ bufSize EQU 121
         index       EQU 0
 
 .data 
-        password        DB "tallerac", CHR_FIN
-        msgpassword     DB "Ingrese su password: ", CHR_FIN
+        varPassword        DB "tallerac", CHR_FIN
+        varMensajePassword     DB "Ingrese su password: ", CHR_FIN
         
         signoResta      DB "-", CHR_FIN
         coma            DB ",", CHR_FIN
         msgpasinvalida  db VAL_LF, VAL_RET,"Password Invalida", VAL_LF, VAL_RET, CHR_FIN
         msgpasswordok   db VAL_LF, VAL_RET,"Password Correcta",VAL_LF, VAL_RET, CHR_FIN
         
-        msgReadKey      db VAL_LF, VAL_RET,"Presione Cualquier tecla para continuar...",VAL_LF, VAL_RET, CHR_FIN
-        menu            DB VAL_LF, VAL_RET,"|------------------------------------|", VAL_LF, VAL_RET;
-        opc0            DB "|--------------- MENU ---------------|", VAL_LF, VAL_RET;
-        opc1            DB "|  1.- Suma y resta                  |", VAL_LF, VAL_RET;
-        opc2            DB "|  2.- Multiplicacion y Division     |", VAL_LF, VAL_RET;
-        opc3            DB "|  3.- Operaciones con Hexadecimal   |", VAL_LF, VAL_RET;
-        opc4            DB "|  4.- Serie Fibonacci               |", VAL_LF, VAL_RET;
-        opc5            DB "|------------------------------------|", VAL_LF, VAL_RET;
-        opc6            DB "|  0.- Salir                         |", VAL_LF, VAL_RET;
-        opc7            DB "|------------------------------------|", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeEsperaLectura      db VAL_LF, VAL_RET,"Presione Cualquier tecla para continuar...",VAL_LF, VAL_RET, CHR_FIN
+        varMenu               DB VAL_LF, VAL_RET,"|------------------------------------|", VAL_LF, VAL_RET;
+        varOpcion0            DB "|--------------- MENU ---------------|", VAL_LF, VAL_RET;
+        varOpcion01            DB "|  1.- Suma y resta                  |", VAL_LF, VAL_RET;
+        varOpcion02            DB "|  2.- Multiplicacion y Division     |", VAL_LF, VAL_RET;
+        varOpcion3            DB "|  3.- Operaciones con Hexadecimal   |", VAL_LF, VAL_RET;
+        varOpcion4            DB "|  4.- Serie Fibonacci               |", VAL_LF, VAL_RET;
+        varOpcion5            DB "|------------------------------------|", VAL_LF, VAL_RET;
+        varOpcion6            DB "|  0.- Salir                         |", VAL_LF, VAL_RET;
+        varOpcion7            DB "|------------------------------------|", VAL_LF, VAL_RET, CHR_FIN;
         
-        msgNoValido     DB VAL_LF, VAL_RET,"Datos ingresados fuera de rango", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeInvalido     DB VAL_LF, VAL_RET,"Datos ingresados fuera de rango", VAL_LF, VAL_RET, CHR_FIN;
 
-        msg             DB "Digite la opcion a realizar: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgSuma1        DB "Ingrese primer numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgSuma2        DB "Ingrese segundo numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgMult1        DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgMult2        DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgNumH         DB "Ingrese un numero Hexadecimal de 2 digitos: ", VAL_LF, VAL_RET, CHR_FIN;
-        msgOpcNoValida  DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
-        msgresultado1   DB VAL_LF, VAL_RET, "Resultado Suma: ",CHR_FIN
-        msgresultado2   DB VAL_LF, VAL_RET, "Resultado Resta: ",CHR_FIN
-        mensajeM        DB VAL_LF, VAL_RET, "Resultado Multiplicacion: ",CHR_FIN
-        mensajeD        DB VAL_LF, VAL_RET, "Resultado Division: ",CHR_FIN
-        mensajeE        DB VAL_LF, VAL_RET, "No se puede dividir entre 0",CHR_FIN
-        msgBinario      DB " ", CHR_FIN;
-        msgNum1H        DB VAL_LF, VAL_RET,"Primer Hexadecimal en Binario: ", CHR_FIN;
-        msgNum2H        DB "Segundo Hexadecimal en Binario:  ", CHR_FIN;
-        msgNum1HN       DB "Primer Hexadecimal Negado en Binario: ", CHR_FIN;
-        msgNum2HN       DB "Segundo Hexadecimal Negado en Binario: ", CHR_FIN;
-        msgAND          DB "Resultado AND: ", CHR_FIN;
-        msgOR           DB "Resultado OR: ", CHR_FIN;
-        msgXOR          DB "Resultado XOR: ", CHR_FIN;
-        binario         DB "00000000", VAL_LF, VAL_RET, CHR_FIN;
-        letra DB "A", CHR_FIN;
+        varLecturaOpcion             DB "Digite la opcion a realizar: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensaje1         DB "Ingrese primer numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensaje2         DB "Ingrese segundo numero entre 0 y 255: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensaje3         DB "Ingrese primer numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensaje4         DB "Ingrese segundo numero entre 0 y 65535: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeHexadecimal         DB "Ingrese un numero Hexadecimal de 2 digitos: ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeOpcionInvalida   DB VAL_LF, VAL_RET,"Opcion no valida ", VAL_LF, VAL_RET, CHR_FIN;
+        varMensajeResultadoSuma   DB VAL_LF, VAL_RET, "Resultado Suma: ",CHR_FIN
+        varMensajeResultadoResta   DB VAL_LF, VAL_RET, "Resultado Resta: ",CHR_FIN
+        varMensajeResultadoMultiplicacion        DB VAL_LF, VAL_RET, "Resultado Multiplicacion: ",CHR_FIN
+        varMensajeResultadoDivision        DB VAL_LF, VAL_RET, "Resultado Division: ",CHR_FIN
+        varMensajeErrorDivisionPor0        DB VAL_LF, VAL_RET, "No se puede dividir entre 0",CHR_FIN
+        varMensajeBinario      DB " ", CHR_FIN;
+        varMensajePrimerNumeroHexa        DB VAL_LF, VAL_RET,"Primer Hexadecimal en Binario: ", CHR_FIN;
+        varMensajeSegundoNumeroHexa        DB "Segundo Hexadecimal en Binario:  ", CHR_FIN;
+        varMensajePrimerNumeroHexaNegado        DB "Primer Hexadecimal Negado en Binario: ", CHR_FIN;
+        varMensajeSegundoNumeroHexaNegado       DB "Segundo Hexadecimal Negado en Binario: ", CHR_FIN;
+        varMensajeResultadoAND       DB "Resultado AND: ", CHR_FIN;
+        varMensajeResultadoOR       DB "Resultado OR: ", CHR_FIN;
+        varMensajeResultadoXOR       DB "Resultado XOR: ", CHR_FIN;
+        varBinario         DB "00000000", VAL_LF, VAL_RET, CHR_FIN;
+        varLetra DB "A", CHR_FIN;
         numero          Dw 0 
-        num1 db 6 dup(' '),'$'
-        num2 db 6 dup(' '),'$'
-        aux db  8 dup(' '),'$'
+        varNumero1 db 6 dup(' '),'$'
+        varNumero2 db 6 dup(' '),'$'
+        varAuxiliar db  8 dup(' '),'$'
         num db 2 dup(' '),'$'
-        cont db 0
-        op1 dw ?
-        op2 dw ?
-        op1c dw ?
-        op2c dw ?
-        temp dw ?
-        cociente dw ?
-        residuo dw ?
-        auxres dw ?
-        resultado db 6 DUP(?)
-        resultadoNOT db 6 DUP(?)
-        resultadoAND db 6 DUP(?)
-        resultadoOR db 6 DUP(?)
-        resultadoM dB 1000 dup(' '),'$'
-        resultadoD dB 1000 dup(' '),'$'
+        varCont db 0
+        varOpcion1 dw ?
+        varOpcion2 dw ?
+        varOpcion1C dw ?
+        varOpcion2C dw ?
+        varTemporal dw ?
+        varResultadoCociente dw ?
+        varResultadoResiduo dw ?
+        varAuxiliarRes dw ?
+        varResultado db 6 DUP(?)
+        varResultadoNot db 6 DUP(?)
+        varResultadoAND db 6 DUP(?)
+        varResultadoOR db 6 DUP(?)
+        varResultadoMultiplicicacion dB 1000 dup(' '),'$'
+        varResultadoDivision dB 1000 dup(' '),'$'
+        varResiduo db ?
+        
+        
         
 .code
 
@@ -80,22 +83,11 @@ impStr PROC
     RET
 ENDP
 
-readKey PROC
-        mov dx, offset msgReadKey
-        call impStr
-        mov ah, 00  ;leer caracer del teclado
-        int 16h
-        call limpiar;
-        call limpiar;
-    ret
-ENDP
-
-
-
+;Punto 1. Contrase?a
 ingresarpasword PROC 
-    mov dx, offset msgpassword
+    mov dx, offset varMensajePassword
     call impStr
-    mov di,offset aux
+    mov di,offset varAuxiliar
     mov cx,8h
 lecture:    
     ;leer un caracter
@@ -109,27 +101,10 @@ lecture:
     mov ah,6h   
     mov dl,'*'
     int 21h
-    
-    
     loop lecture
     ret 
-ENDP
+ENDP 
 
-
-
-auxhtob proc
-    mov bx, offset resultado
-    call conv_numChar
-    mov dx, offset resultado
-    call impStr
-    mov dx, offset signoResta
-    call impStr
-ret
-endp
-
-;Punto 2. Color consola
-;       Presentar un men? en pantalla con un color de fondo y letras visibles adecuadas al color de fondo
-;       seleccionado que permita ejecutar las siguientes opciones
 limpiar PROC
         mov ah,06h
         mov bH,01110000B
@@ -144,12 +119,77 @@ limpiar PROC
         ret
         ENDP
 
+readKey PROC
+        mov dx, offset varMensajeEsperaLectura
+        call impStr
+        mov ah, 00  ;leer caracer del teclado
+        int 16h
+        call limpiar;
+        call limpiar;
+    ret
+ENDP
 
-;Punto 3. Suma y resta
-;       Solicitar dos n?meros en el rango de 0 a 65535, realizar la suma, diferencia y presentar el resultado
-;       en forma legible por las personas. No deben presentarse ceros a la izquierda de los n?meros, si el
-;       n?mero es negativo debe anteponerse el signo menos (-)
+;Punto 3. Suma y Resta
 
+;conv_charNum
+; ========= Convertir cadena a numero =====================
+; Parametros
+; si: offset inicial de la cadena con respecto a DS
+; Retorna
+; bx: valor
+conv_charNum proc NEAR
+  xor bx,bx   ;BX = 0
+
+  conv_charNum_1:
+  lodsb       ;carga byte apuntado por SI en AL
+              ;e incrementa si
+  cmp al,'0'  ;es numero ascii? [0-9]
+  jl noascii  ;no, salir
+  cmp al,'9'
+  jg noascii  ;no, salir
+
+  sub al,30h  ;ascii '0'=30h, ascii '1'=31h...etc.
+  cbw         ;byte a word
+  push ax
+  mov ax,bx   ;BX tendra el valor final
+  mov cx,10
+  mul cx      ;AX=AX*10
+  mov bx,ax
+  pop ax
+  add bx,ax
+  jmp conv_charNum_1  ;seguir mientras SI apunte a un numero ascii
+  noascii:
+  ret         ;BX tiene el valor final
+conv_charNum endp
+ingNum PROC
+    mov dx, offset varMensaje3
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset varNumero1
+    int 21h
+    
+    mov si, offset varNumero1
+    call conv_charNum
+    mov varOpcion1, bx
+    mov varOpcion1C,bx
+    
+    mov dx, offset varMensaje4
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset varNumero2
+    int 21h
+    
+    mov si, offset varNumero2
+    call conv_charNum
+    mov varOpcion2, bx
+    mov varOpcion2C, bx
+    
+    RET
+ENDP
 ; =============== Convertir numero a cadena ===============
 ; Parametros
 ; ax: valor
@@ -193,183 +233,119 @@ conv_numChar proc NEAR
   ret
 conv_numChar endp
 
-;conv_charNum
-; ========= Convertir cadena a numero =====================
-; Parametros
-; si: offset inicial de la cadena con respecto a DS
-; Retorna
-; bx: valor
-conv_charNum proc NEAR
-  xor bx,bx   ;BX = 0
-
-  conv_charNum_1:
-  lodsb       ;carga byte apuntado por SI en AL
-              ;e incrementa si
-  cmp al,'0'  ;es numero ascii? [0-9]
-  jl noascii  ;no, salir
-  cmp al,'9'
-  jg noascii  ;no, salir
-
-  sub al,30h  ;ascii '0'=30h, ascii '1'=31h...etc.
-  cbw         ;byte a word
-  push ax
-  mov ax,bx   ;BX tendra el valor final
-  mov cx,10
-  mul cx      ;AX=AX*10
-  mov bx,ax
-  pop ax
-  add bx,ax
-  jmp conv_charNum_1  ;seguir mientras SI apunte a un numero ascii
-  noascii:
-  ret         ;BX tiene el valor final
-conv_charNum endp
-
-ingNum PROC
-    mov dx, offset msgSuma1
-    call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num1
-    int 21h
-    
-    mov si, offset num1
-    call conv_charNum
-    mov op1, bx
-    mov op1c,bx
-    
-    mov dx, offset msgSuma2
-    call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num2
-    int 21h
-    
-    mov si, offset num2
-    call conv_charNum
-    mov op2, bx
-    mov op2c, bx
-    
-    RET
-ENDP
-
 sumarrestar PROC
         call ingNum
-        mov dx, offset msgresultado1
+        mov dx, offset varmensajeresultadosuma
         call impStr
-        mov ax, op1
-        add ax, op2
-        mov bx, offset resultado
-        call conv_NumChar
+        mov ax, varOpcion1
+        add ax, varOpcion2
+        mov bx, offset varresultado
+        call conv_numChar
         
-        mov dx, offset resultado
+        mov dx, offset varresultado
         call impStr
         
-        mov ax, op1
-        cmp ax, op2
+        mov ax, varOpcion1
+        cmp ax, varOpcion2
         jae resta
         jmp restan
 
 restan:        
-        mov dx, offset msgresultado2
+        mov dx, offset varMensajeResultadoResta
         call impStr
-        mov ax, op1
-        sub ax, op2
+        mov ax, varOpcion1
+        sub ax, varOpcion2
         neg ax
-        mov bx, offset resultado
+        mov bx, offset varResultado
         call conv_numChar
         
         mov dx, offset signoResta
         call impStr
         
-        mov dx, offset resultado
+        mov dx, offset varResultado
         call impStr
         call readKey
         jmp showMenu
 resta:
-        mov dx, offset msgresultado2
+        mov dx, offset varMensajeResultadoResta
         call impStr
-        mov ax, op1
-        sub ax, op2
-        mov bx, offset resultado
+        mov ax, varOpcion1
+        sub ax, varOpcion2
+        mov bx, offset varResultado
         call conv_numChar
         
-        mov dx, offset resultado
+        mov dx, offset varResultado
         call impStr
         call readKey
         jmp showMenu
 RET
 ENDP
 
-;Punto 4. Multiplicacion y division
-;       Solicitar dos n?meros en el rango de 0 a 255, realizar la multiplicaci?n, divisi?n y presentar el 
-;       resultado en forma legible por las personas. No deben presentarse ceros a la izquierda de los n?meros
+;Punto 4. Multiplicacion y Division
 
-
-ingNum2 PROC
-    mov dx, offset msgMult1
+ingvarNumero2 PROC
+    mov dx, offset varMensaje1
     call impStr
     mov ah,3fh
     mov bx,00
     mov cx,6
-    mov dx,offset num1
+    mov dx,offset varNumero1
     int 21h
     
-    mov si, offset num1
+    mov si, offset varNumero1
     call conv_charNum
-    mov op1, bx
-    mov op1c,bx
+    mov varOpcion1, bx
+    mov varOpcion1C,bx
     
-    mov dx, offset msgMult2
+    mov dx, offset varMensaje2
     call impStr
     mov ah,3fh
     mov bx,00
     mov cx,6
-    mov dx,offset num2
+    mov dx,offset varNumero2
     int 21h
     
-    mov si, offset num2
+    mov si, offset varNumero2
     call conv_charNum
-    mov op2, bx
-    mov op2c, bx
+    mov varOpcion2, bx
+    mov varOpcion2C, bx
     
     RET
 ENDP
-
 divMulti Proc
-        call ingNum2
+        call ingvarNumero2
         ;Division
-        mov ax,op2
+        mov ax,varOpcion2
         cmp ax,0
         je DivCero
         jmp divi
 
         DivCero: 
-        mov dx,offset mensajeE
+        mov dx,offset varMensajeErrorDivisionPor0
         call impStr
         call readKey
         jmp showMenu
 
         divi:
-        mov ax,op1
-        div op2
+        mov ax,varOpcion1
+        div varOpcion2
 
-        mov bx,offset resultadoD
+        mov bx,offset varResultadoDivision
         call conv_numChar
-        mov dx, offset mensajeD
+        mov dx, offset varMensajeResultadoDivision
         call impStr
-        mov dx,offset resultadoD
+        mov dx,offset varResultadoDivision
         call impStr
-        mov ax,op1
-        mul op2
+        ;multiplicacion
+        mov ax,varOpcion1
+        mul varOpcion2
 
-        mov bx,offset resultadoM
+        mov bx,offset varResultadoMultiplicicacion
         call conv_numChar
-        mov dx,offset mensajeM
+        mov dx,offset varMensajeResultadoMultiplicacion
         call impStr
 
-        mov dx,offset resultadoM
+        mov dx,offset varResultadoMultiplicicacion
         call impStr
         call readKey
         jmp showMenu
@@ -377,10 +353,95 @@ RET
 ENDP
 
 ;Punto 5. Dos Hexadecimales
-;       Solicitar dos n?meros hexadecimales de dos d?gitos (00 a FF), presentar la forma binaria de cada uno
-;        de los dos n?meros y la aplicaci?n de la operaci?n NOT a cada uno de ellos (presentados en pantalla
-;       tanto en forma hexadecimal como binaria). Realizar las operaciones l?gicas AND, OR y XOR sobre los
-;       dos n?meros, presentar los resultados tanto en forma hexadecimal como binaria
+convBin proc near
+       mov ax, numero + 0
+            
+       cmp ax, 128
+        jae resto128
+        mov varBinario + 0, 48                  ; 128   64  32  16  8  4  2  1
+        jmp cmp64                           ;  0     1   0   0   0   0 0  1 
+        
+        resto128:
+        mov varBinario +0 , 49 
+        sub ax, 128
+        
+        cmp64:
+        cmp ax, 64
+        jae resto64
+        mov varBinario + 1, 48
+        jmp cmp32
+        
+        resto64:
+        mov varBinario + 1 , 49 
+        sub ax, 64
+        
+        cmp32:
+        cmp ax, 32
+        jae resto32
+        mov varBinario + 2, 48
+        jmp cmp16
+        
+        resto32:
+        mov varBinario + 2 , 49 
+        sub ax, 32
+        
+        cmp16:
+        cmp ax, 16
+        jae resto16
+        mov varBinario + 3, 48
+        jmp cmp8
+        
+        resto16:
+        mov varBinario + 3, 49 
+        sub ax, 16
+        
+        cmp8:
+        cmp ax, 8
+        jae resto8
+        mov varBinario + 4, 48
+        jmp cmp4
+        
+        resto8:
+        mov varBinario + 4, 49 
+        sub ax, 8
+        
+        cmp4:
+        cmp ax, 4
+        jae resto4
+        mov varBinario + 5, 48
+        jmp cmp2
+        
+        resto4:
+        mov varBinario + 5, 49 
+        sub ax, 4
+        
+        cmp2:
+        cmp ax, 2
+        jae resto2
+        mov varBinario + 6, 48
+        jmp cmp1
+        
+        resto2:
+        mov varBinario + 6, 49 
+        sub ax, 2
+        
+        cmp1:
+        cmp ax, 1
+        jae resto1
+        mov varBinario + 7, 48
+        jmp cmp0
+        
+        resto1:
+        mov varBinario + 7, 49 
+        sub ax, 1
+        
+        cmp0:
+        mov dx,offset varMensajeBinario
+        call impStr
+        mov dx,offset varBinario
+        call impStr
+ret
+convBin endp
 
 ;conv_charNum H
 ; ========= Convertir cadena a numero =====================
@@ -388,82 +449,6 @@ ENDP
 ; si: offset inicial de la cadena con respecto a DS
 ; Retorna
 ; bx: valor
-
-comp PROC
-    cmp ax, 9
-    ja mayor
-    jbe menor
-    menor:
-    mov bx, offset resultado
-    call conv_numChar
-    mov dx, offset resultado
-    call impStr
-    ret
-    mayor:
-    cmp ax, 10
-    je a
-    cmp ax, 11
-    je b
-    cmp ax, 12
-    je c
-    cmp ax, 13
-    je d
-    cmp ax, 14
-    je e
-    cmp ax, 15
-    je f
-    a:
-    mov letra, 'A'
-    mov dx, offset letra
-    call impStr
-    ret
-    b:
-    mov letra, 'B'
-    mov dx, offset letra
-    call impStr
-    ret
-    c:
-    mov letra, 'C'
-    mov dx, offset letra
-    call impStr
-    ret
-    d:
-    mov letra, 'D'
-    mov dx, offset letra
-    call impStr
-    ret
-    e:
-    mov letra, 'E'
-    mov dx, offset letra
-    call impStr
-    ret
-    f:
-    mov letra, 'F'
-    mov dx, offset letra
-    call impStr
-    ret
-ret
-ENDP
-decHex PROC
-    mov ax, bx
-   mov cx, 4
-   ror ax,cl
-   and ax,0fh
-   mov cociente,ax
-   mov ax, 16
-   mul cociente
-   mov auxres, ax
-   mov ax, bx
-   sub ax, auxres
-   mov residuo, ax
-   mov ax, cociente
-   call comp
-   mov ax, residuo
-   call comp
-RET
-ENDP 
-
-
 conv_charNumh proc NEAR
   xor bx,bx   ;BX = 0
 
@@ -506,176 +491,157 @@ conv_charNumh proc NEAR
   noasciii:
   ret         ;BX tiene el valor final
   conv_charNumh endp
-
-leerH proc
-    mov dx, offset msgNumH
+comp PROC
+    cmp ax, 9
+    ja mayor
+    jbe menor
+    menor:
+    mov bx, offset varResultado
+    call conv_numChar
+    mov dx, offset varResultado
     call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num1
-    int 21h
-    mov si, offset num1
-    call conv_charNumh
-    mov op1, bx
-    mov op1c, bx
-    mov dx, offset msgNumH
+    ret
+    mayor:
+    cmp ax, 10
+    je a
+    cmp ax, 11
+    je b
+    cmp ax, 12
+    je c
+    cmp ax, 13
+    je d
+    cmp ax, 14
+    je e
+    cmp ax, 15
+    je f
+    a:
+    mov varLetra, 'A'
+    mov dx, offset varLetra
     call impStr
-    mov ah,3fh
-    mov bx,00
-    mov cx,6
-    mov dx,offset num2
-    int 21h
-    mov si, offset num2
-    call conv_charNumh
-    mov op2, bx
-    mov op2c, bx
+    ret
+    b:
+    mov varLetra, 'B'
+    mov dx, offset varLetra
+    call impStr
+    ret
+    c:
+    mov varLetra, 'C'
+    mov dx, offset varLetra
+    call impStr
+    ret
+    d:
+    mov varLetra, 'D'
+    mov dx, offset varLetra
+    call impStr
+    ret
+    e:
+    mov varLetra, 'E'
+    mov dx, offset varLetra
+    call impStr
+    ret
+    f:
+    mov varLetra, 'F'
+    mov dx, offset varLetra
+    call impStr
+    ret
+ret
+ENDP
+decHex PROC
+    mov ax, bx
+   mov cx, 4
+   ror ax,cl
+   and ax,0fh
+   mov varResultadoCociente,ax
+   mov ax, 16
+   mul varResultadoCociente
+   mov varAuxiliarRes, ax
+   mov ax, bx
+   sub ax, varAuxiliarRes
+   mov varResultadoResiduo, ax
+   mov ax, varResultadoCociente
+   call comp
+   mov ax, varResultadoResiduo
+   call comp
 RET
 ENDP 
 
-
-convBin proc near
-       mov ax, numero + 0
-            
-       cmp ax, 128
-        jae resto128
-        mov binario + 0, 48                  ; 128   64  32  16  8  4  2  1
-        jmp cmp64                           ;  0     1   0   0   0   0 0  1 
-        
-        resto128:
-        mov binario +0 , 49 
-        sub ax, 128
-        
-        cmp64:
-        cmp ax, 64
-        jae resto64
-        mov binario + 1, 48
-        jmp cmp32
-        
-        resto64:
-        mov binario + 1 , 49 
-        sub ax, 64
-        
-        cmp32:
-        cmp ax, 32
-        jae resto32
-        mov binario + 2, 48
-        jmp cmp16
-        
-        resto32:
-        mov binario + 2 , 49 
-        sub ax, 32
-        
-        cmp16:
-        cmp ax, 16
-        jae resto16
-        mov binario + 3, 48
-        jmp cmp8
-        
-        resto16:
-        mov binario + 3, 49 
-        sub ax, 16
-        
-        cmp8:
-        cmp ax, 8
-        jae resto8
-        mov binario + 4, 48
-        jmp cmp4
-        
-        resto8:
-        mov binario + 4, 49 
-        sub ax, 8
-        
-        cmp4:
-        cmp ax, 4
-        jae resto4
-        mov binario + 5, 48
-        jmp cmp2
-        
-        resto4:
-        mov binario + 5, 49 
-        sub ax, 4
-        
-        cmp2:
-        cmp ax, 2
-        jae resto2
-        mov binario + 6, 48
-        jmp cmp1
-        
-        resto2:
-        mov binario + 6, 49 
-        sub ax, 2
-        
-        cmp1:
-        cmp ax, 1
-        jae resto1
-        mov binario + 7, 48
-        jmp cmp0
-        
-        resto1:
-        mov binario + 7, 49 
-        sub ax, 1
-        
-        cmp0:
-        mov dx,offset msgBinario
-        call impStr
-        mov dx,offset binario
-        call impStr
-ret
-convBin endp
-
+leerH proc
+    mov dx, offset varMensajeHexadecimal
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset varNumero1
+    int 21h
+    mov si, offset varNumero1
+    call conv_charNumh
+    mov varOpcion1, bx
+    mov varOpcion1C, bx
+    mov dx, offset varMensajeHexadecimal
+    call impStr
+    mov ah,3fh
+    mov bx,00
+    mov cx,6
+    mov dx,offset varNumero2
+    int 21h
+    mov si, offset varNumero2
+    call conv_charNumh
+    mov varOpcion2, bx
+    mov varOpcion2C, bx
+RET
+ENDP 
 hexadecimal proc
     call leerH
-    mov dx, offset msgNum1H
+    mov dx, offset varMensajePrimerNumeroHexa
     call impStr
-    mov bx, op1
+    mov bx, varOpcion1
     mov numero, bx
     call convBin
-    mov dx, offset msgNum2H
+    mov dx, offset varMensajeSegundoNumeroHexa
     call impStr
-    mov bx, op2
+    mov bx, varOpcion2
     mov numero, bx
     call convBin
-     mov dx, offset msgNum1HN
+     mov dx, offset varMensajePrimerNumeroHexaNegado
      call impStr
-     NOT op1c
-     mov ax, op1c
+     NOT varOpcion1C
+     mov ax, varOpcion1C
      sub ax, 65280
      mov numero, ax
      mov bx, ax
      call decHex
      call convBin
-     mov dx, offset msgNum2HN
+     mov dx, offset varMensajeSegundoNumeroHexaNegado
      call impStr
-     NOT op2c
-     mov ax, op2c
+     NOT varOpcion2C
+     mov ax, varOpcion2C
      sub ax, 65280
      mov numero, ax
      mov bx, ax
      call decHex
      call convBin
-     mov dx, offset msgAND
+     mov dx, offset varMensajeResultadoAND
      call impStr
-     mov ax, op1
-     mov bx, op2
+     mov ax, varOpcion1
+     mov bx, varOpcion2
      and ax, bx
      mov numero, ax
      mov bx, ax
      call decHex
      call convBin
-     mov dx, offset msgOR
+     mov dx, offset varMensajeResultadoOR
      call impStr
-     mov ax, op1
-     mov bx, op2
+     mov ax, varOpcion1
+     mov bx, varOpcion2
      OR ax, bx
      mov numero, ax
      mov bx, ax
      call decHex
      call convBin
-     mov dx, offset msgXOR
+     mov dx, offset varMensajeResultadoXOR
      call impStr
-     mov ax, op1
-     mov bx, op2
+     mov ax, varOpcion1
+     mov bx, varOpcion2
      XOR ax, bx
      mov numero, ax
      mov bx, ax
@@ -687,58 +653,55 @@ RET
 ENDP 
 
 ;Punto 6. Fibonacci
-;       Generar los primeros quince (15) n?meros de la serie Fibonacci: 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610
 fibonacci PROC
-    mov op1, 1
-    mov op2, 1
-    mov cont, 1
-    mov ax, op1
-    mov bx, offset resultado
+    mov varOpcion1, 1
+    mov varOpcion2, 1
+    mov varCont, 1
+    mov ax, varOpcion1
+    mov bx, offset varResultado
     call conv_numChar
-    mov dx, offset resultado
+    mov dx, offset varResultado
     call impStr
     mov dx, offset coma
     call impStr
-    mov ax, op2
-    mov bx, offset resultado
+    mov ax, varOpcion2
+    mov bx, offset varResultado
     call conv_numChar
-    mov dx, offset resultado
+    mov dx, offset varResultado
     call impStr
     cicloFibo:
     mov dx, offset coma
     call impStr
-    add cont,1
-    mov ax, op2
-    mov temp, ax
-    add ax, op1
-    mov op2, ax
-    mov bx, offset resultado
+    add varCont,1
+    mov ax, varOpcion2
+    mov varTemporal, ax
+    add ax, varOpcion1
+    mov varOpcion2, ax
+    mov bx, offset varResultado
     call conv_numChar
-    mov dx, offset resultado
+    mov dx, offset varResultado
     call impStr
-    mov ax, temp
-    mov op1, ax
-    mov al, cont
+    mov ax, varTemporal
+    mov varOpcion1, ax
+    mov al, varCont
     cmp al, 14
     jb cicloFibo
     call readKey
 ret 
 ENDP
 
-;Punto 1. Password
-;       Para ingresar al sistema debe digitar una contrase?a y ser comparada con una palabra fija de 8
-;       car?cteres y residente en memoria, en caso de igualdad es presentado el men? principal del programa.
-;       Despu?s de tres intentos errados sale del programa. Al introducir cada car?cter debe imprimir un *
+
+;Punto 1. Contrase?a
 valPasword PROC
     
-    add cont,1
-    mov al, cont
+    add varCont,1
+    mov al, varCont
     cmp al,3 ; valida el numero de intentos
     jg salir
     
     call ingresarpasword ;pide contrase?a
-    lea si,aux  ;cargamos en si la contrase?a ingresada
-    lea di,password ;cargamos en di la contrase?a almacenada
+    lea si,varAuxiliar  ;cargamos en si la contrase?a ingresada
+    lea di,varPassword ;cargamos en di la contrase?a almacenada
     mov cx,8
     repe cmpsb  ;valida contrase?a
     je posswordOk
@@ -761,12 +724,13 @@ INICIO PROC
         call impStr
         jmp showMenu
        
-showMenu:
-        mov dx, offset menu     
+showMenu:   
+
+        mov dx, offset varMenu     
         call impStr
 
 opciones:
-        mov dx, offset msg
+        mov dx, offset varLecturaOpcion
         call impStr
         
         mov ah, 00  ;leer caracer del teclado
@@ -787,7 +751,7 @@ opciones:
         cmp al, "0"
         je salir
         
-        mov dx, offset msgOpcNoValida
+        mov dx, offset varMensajeOpcionInvalida
         call impStr
         call readKey
         jmp showMenu ; se vuelve a pedir el numero en caso que la opcion digitada no sea valida 
